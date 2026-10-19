@@ -14,6 +14,6 @@ em algum momento futuro posso fazer crescer esse jogo
 com uma interface gráfica e fazer implementação de mais
 mecânicas. Mas por enquanto é só isso.
 
-Em breve vai haver o sistema de inventário!
+Em breve vai haver o [sistema de inventário!](Document/Inventory.md)
 
 ATENÇÃO: O jogo continua incompleto!
