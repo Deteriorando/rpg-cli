@@ -2,9 +2,7 @@
 
 O inventário ele é um sistema onde o jogador poderá guarda ‘items’
 para ser usado. Cada ‘item’ será especifíco em classes do java
-e isso é importante para manter desacoplamento.
-
-O Sistema de inventário será somente para o jogador, ou seja,
+e isso é importante para manter desacoplamento. O Sistema de inventário será somente para o jogador, ou seja,
 somente na classe jogador, o inimigo não vai precisa ter um sistema
 de inventário próprio(e nem é necessário).
 
