@@ -15,3 +15,5 @@ com uma interface gráfica e fazer implementação de mais
 mecânicas. Mas por enquanto é só isso.
 
 Em breve vai haver o sistema de inventário!
+
+ATENÇÃO: O jogo continua incompleto!
