@@ -1,47 +1,136 @@
 package dete.org.Systems.Inventory;
 
+import dete.org.Systems.Inventory.Exeptions.InventoryFullException;
+
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class Inventory {
+
+    public static class InventorySlot {
+        private final Item item;
+        private int quantity;
+
+        public InventorySlot(Item item, int quantity) {
+            this.item = item;
+            this.quantity = quantity;
+        }
+
+        public Item getItem() { return item; }
+        public int getQuantity() { return quantity; }
+        public void addQuantity(int amount) { this.quantity += amount; }
+
+        public boolean isFull() {
+            return this.quantity >= item.getMaxStackSize();
+        }
+
+        public int getRemainingSpace() {
+            return item.getMaxStackSize() - this.quantity;
+        }
+    }
+
     private final int slotLimit;
-    private final List<Item> items;
-    private final Map<String, Integer> quantities; // Controls stacking by item ID
+    private final List<InventorySlot> slots;
 
     public Inventory(int slotLimit) {
         this.slotLimit = slotLimit;
-        this.items = new ArrayList<>();
-        this.quantities = new HashMap<>();
+        this.slots = new ArrayList<>();
     }
 
-    public boolean addItem(Item item, int quantity) {
+    public void addItem(Item item, int quantity) {
+        validateItem(item, quantity);
+
+        int remainingQuantity = quantity;
+
         if (item.hasProperty(ItemProperties.STACKABLE)) {
-            if (quantities.containsKey(item.getId())) {
-                quantities.put(item.getId(), quantities.get(item.getId()) + quantity);
-                return true;
+            remainingQuantity = fillExistingSlots(item, remainingQuantity);
+            if (remainingQuantity == 0) return;
+        }
+
+        fillNewSlots(item, remainingQuantity);
+    }
+
+    private void validateItem(Item item, int quantity) {
+        if (item == null) {
+            throw new IllegalArgumentException("Cannot add a null item to the inventory.");
+        }
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than zero.");
+        }
+    }
+
+    private int fillExistingSlots(Item item, int quantity) {
+        for (InventorySlot slot : slots) {
+            if (isSameItem(slot, item) && !slot.isFull()) {
+                int spaceInSlot = slot.getRemainingSpace();
+
+                long total = (long) slot.getQuantity() + quantity;
+                if (total > Integer.MAX_VALUE) {
+                    throw new ArithmeticException("Stack quantity overflow!");
+                }
+
+                if (quantity <= spaceInSlot) {
+                    slot.addQuantity(quantity);
+                    return 0;
+                } else {
+                    slot.addQuantity(spaceInSlot);
+                    quantity -= spaceInSlot;
+                }
             }
         }
+        return quantity;
+    }
 
-        if (items.size() >= slotLimit) {
-            System.out.println("Inventário cheio!");
-            return false;
+    private void fillNewSlots(Item item, int quantity) {
+        while (quantity > 0) {
+            if (hasReachedSlotLimit()) {
+                throw new InventoryFullException("Inventory is full! Could not add all items.");
+            }
+
+            int amountToPut = calculateAmountForNewSlot(item, quantity);
+            slots.add(new InventorySlot(item, amountToPut));
+            quantity -= amountToPut;
         }
+    }
 
-        items.add(item);
-        quantities.put(item.getId(), quantity);
-        return true;
+    private boolean isSameItem(InventorySlot slot, Item item) {
+        return slot.getItem().getId().equals(item.getId());
+    }
+
+    private boolean hasReachedSlotLimit() {
+        return slots.size() >= slotLimit;
+    }
+
+    private int calculateAmountForNewSlot(Item item, int quantity) {
+        if (item.hasProperty(ItemProperties.STACKABLE)) {
+            return Math.min(quantity, item.getMaxStackSize());
+        }
+        return 1;
     }
 
     public void listInventory() {
         System.out.println("=== INVENTORY ===");
+        if (slots.isEmpty()) {
+            System.out.println("Your inventory is empty.");
+            return;
+        }
+
         int index = 1;
-        // Laço foreach implementado aqui
-        for (Item item : items) {
-            int qty = quantities.getOrDefault(item.getId(), 1);
-            System.out.println(index + ". " + item.getName() + " (x" + qty + ") [" + item.getType().name() + "]");
+        for (InventorySlot slot : slots) {
+            Item item = slot.getItem();
+            int qty = slot.getQuantity();
+
+            if (item.hasProperty(ItemProperties.STACKABLE)) {
+                System.out.println(index + ". " + item.getName() + " (x" + qty + "/" + item.getMaxStackSize() + ") [" + item.getType().name() + "]");
+            } else {
+                System.out.println(index + ". " + item.getName() + " [" + item.getType().name() + "]");
+            }
             index++;
         }
+    }
+
+    public List<InventorySlot> getSlots() {
+        return Collections.unmodifiableList(slots);
     }
 }
