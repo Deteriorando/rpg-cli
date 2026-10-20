@@ -13,13 +13,15 @@ public abstract class Item {
     private final String description;
     private final ItemType type;
     private final Set<ItemProperties> properties;
+    private final int maxStackSize;
 
-    public Item(String id, String name, String description, ItemType type) {
+    public Item(String id, String name, String description, ItemType type, int maxStackSize) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.type = type;
         this.properties = EnumSet.noneOf(ItemProperties.class);
+        this.maxStackSize = maxStackSize;
     }
 
     public void addProperty(ItemProperties property) {
@@ -39,6 +41,7 @@ public abstract class Item {
     public Set<ItemProperties> getProperties() {
         return Collections.unmodifiableSet(properties);
     }
+    public int getMaxStackSize() { return maxStackSize; }
 
     // Abstract method for each item to define what it does when used in the game
     public abstract void use();
