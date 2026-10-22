@@ -10,7 +10,7 @@ um sistema de inventário.
 
 A classe `Inventory` em si é genérica e não conhece o jogador: ela só
 organiza itens em slots. Quem a possui e decide o seu tamanho é o `Player`
-(20 slots). Os itens que ela guarda estão descritos em
+(8 slots). Os itens que ela guarda estão descritos em
 [Sistema de itens](Items.md).
 
 ### Estrutura de Armazenamento e Slots
