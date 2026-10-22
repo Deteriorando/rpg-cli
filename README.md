@@ -41,7 +41,7 @@ principal. Mais detalhes em [Sistema de entidade](Document/EntitySystem.md).
 
 ### Sistema de inventário
 
-O jogador carrega uma mochila com **20 slots**. Os inimigos não têm
+O jogador carrega uma mochila com **8 slots**. Os inimigos não têm
 inventário, só o jogador.
 
 - **Empilhamento:** itens empilháveis (como a poção) dividem o mesmo slot até
