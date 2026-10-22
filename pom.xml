@@ -6,7 +6,7 @@
 
     <groupId>dete.org</groupId>
     <artifactId>RPG-CLI</artifactId>
-    <version>0.3</version>
+    <version>0.4</version>
 
     <properties>
         <maven.compiler.source>25</maven.compiler.source>
