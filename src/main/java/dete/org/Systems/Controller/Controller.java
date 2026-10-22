@@ -1,4 +1,4 @@
-package dete.org.Systems.Combat;
+package dete.org.Systems.Controller;
 
 import dete.org.Entity.Entities.Player;
 import dete.org.Entity.Entities.Enemy;
@@ -32,7 +32,6 @@ public class Controller {
             combat.executeEnemyAction(enemy, player);
 
             // Atualiza os cooldowns no fim do turno completo
-            if (!player.canRegenerate()) player.updateCooldowns();
             if (!enemy.canRegenerate()) enemy.updateCooldowns();
 
             combat.rounds++;
@@ -76,14 +75,10 @@ public class Controller {
                     validAction = true;
                 }
                 case 3 -> {
-                    if (player.canRegenerate()) {
-                        player.regeneration(regenerationValue);
-                        player.triggerRegenCooldown();
-                        MenuInterface.entityRegenMessage("Você");
+                    // Só gasta o turno se o item foi realmente usado;
+                    // se o jogador voltar atrás, escolhe outra ação.
+                    if (InventoryController.useItemInCombat(player, scan)) {
                         validAction = true;
-                    } else {
-                        MenuInterface.regenOnCooldownMessage(player.getRegenCooldown());
-                        // validAction continua false, pedindo outra escolha ao jogador
                     }
                 }
                 default -> {
