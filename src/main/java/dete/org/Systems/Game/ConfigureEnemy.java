@@ -6,6 +6,16 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public record ConfigureEnemy() {
 
+    private static final String[] NAMES = {"Joe", "Rex", "Bruto", "Mira", "Zeno"};
+
+    /** Cria um inimigo novo, com classe e nome sorteados. Nada de uma luta passa para a próxima. */
+    public static Enemy createRandomEnemy() {
+        Classes[] classes = Classes.values();
+        Classes type = classes[ThreadLocalRandom.current().nextInt(classes.length)];
+        String name = NAMES[ThreadLocalRandom.current().nextInt(NAMES.length)];
+        return new Enemy(type, name);
+    }
+
     public static void scaleEnemy(Enemy enemy, int level) {
         enemy.clearEffect();
         double newLife = 1500 + (level * 200);
@@ -18,24 +28,6 @@ public record ConfigureEnemy() {
         enemy.clearEffect();
         enemy.setClasses(newType);
         setAttributes(enemy, life, damage, multiplier);
-    }
-
-    public static void enemyInitializer(Enemy enemy) {
-        Classes[] classes = Classes.values();
-
-        int randomClassIndex = ThreadLocalRandom.current().nextInt(0, classes.length);
-        Classes selectedClass = classes[randomClassIndex];
-
-        enemy.clearEffect();
-        enemy.setClasses(selectedClass);
-
-        switch (selectedClass) {
-            case WIZARD   -> setAttributes(enemy, 2220, 40, 2.5);
-            case WITCH    -> setAttributes(enemy, 2220, 40, 4);
-            case WARRIOR  -> setAttributes(enemy, 1820, 55, 3);
-            case BERSEKER -> setAttributes(enemy, 1720, 36.7, 6);
-            default       -> setAttributes(enemy, 1500, 33.4, 5); // HUMAN
-        }
     }
 
     private static void setAttributes(Enemy enemy, double life, double damage, double multiplier) {
