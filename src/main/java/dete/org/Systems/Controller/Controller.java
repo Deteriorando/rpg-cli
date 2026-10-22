@@ -2,7 +2,6 @@ package dete.org.Systems.Controller;
 
 import dete.org.Entity.Entities.Player;
 import dete.org.Entity.Entities.Enemy;
-import dete.org.Systems.Game.ConfigurePlayer;
 import dete.org.Systems.Interface.MenuInterface;
 
 import java.util.Scanner;
@@ -45,7 +44,7 @@ public class Controller {
             MenuInterface.defeatMessage(enemy);
         }
 
-        ConfigurePlayer.reset(player);
+        player.resetToClassStats();
     }
 
     private void executePlayerAction(Player player, Enemy enemy, Scanner scan) {
