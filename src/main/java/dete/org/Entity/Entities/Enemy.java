@@ -1,13 +1,20 @@
 package dete.org.Entity.Entities;
 
+import dete.org.Entity.ClassStats;
 import dete.org.Entity.Classes;
 import dete.org.Entity.Entity;
+
+import java.util.Objects;
 
 public class Enemy extends Entity {
     protected String name;
 
-    public Enemy(double life, double damage, Classes type, double multiplied, String name) {
-        super(life, damage, type, multiplied);
+    public Enemy(Classes type, String name) {
+        this(Objects.requireNonNull(type, "O tipo da Classe não pode estar vazio!").getEnemyStats(), type, name);
+    }
+
+    private Enemy(ClassStats stats, Classes type, String name) {
+        super(stats.life(), stats.damage(), type, stats.multiplier());
         this.name = (name != null && !name.isBlank()) ? name : "No name";
     }
 
