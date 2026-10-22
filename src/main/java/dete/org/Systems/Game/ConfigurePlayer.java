@@ -2,7 +2,6 @@ package dete.org.Systems.Game;
 
 import dete.org.Entity.Classes;
 import dete.org.Entity.Entities.Player;
-import dete.org.Systems.Combat.Effect;
 import dete.org.Systems.Interface.MenuInterface;
 
 import java.util.Scanner;
@@ -64,8 +63,8 @@ public record ConfigurePlayer(Scanner scan) {
             case WIZARD   -> setAttributes(player, 2220, 35, 2);
             case WITCH    -> setAttributes(player, 2220, 35, 4);
             case WARRIOR  -> setAttributes(player, 1820, 45, 3);
-            case BERSEKER -> setAttributes(player, 1720, 27.5, 6);
-            default       -> setAttributes(player, 1500, 33.4, 5); // HUMAN
+            case BERSEKER -> setAttributes(player, 1720, 27, 6);
+            default       -> setAttributes(player, 1500, 33, 5); // HUMAN
         }
     }
 
