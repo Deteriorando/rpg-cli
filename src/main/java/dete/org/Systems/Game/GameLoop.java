@@ -22,19 +22,7 @@ public class GameLoop {
     protected static Scanner scan = new Scanner(System.in);
 
     public static void run() {
-        Player player = new Player(
-                1500,
-                33.4,
-                Classes.HUMAN,
-                5
-        );
-        Enemy enemy = new Enemy(
-                1500,
-                20,
-                Classes.WARRIOR,
-                6,
-                "Joe"
-        );
+        Player player = new Player(Classes.HUMAN);
 
         // Itens iniciais, só para testar o inventário
         player.addItemToInventory(new HealthPotion(30), 3);
@@ -45,7 +33,7 @@ public class GameLoop {
 
             switch (chose) {
                 case 1 -> {
-                    ConfigureEnemy.enemyInitializer(enemy);
+                    Enemy enemy = ConfigureEnemy.createRandomEnemy();
                     Controller.start(player, enemy, scan);
                 }
                 case 2 -> MenuInterface.profile(player);
