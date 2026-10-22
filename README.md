@@ -73,6 +73,7 @@ itens deixados pelos inimigos), e as propriedades *equipável*, *item-chave* e
 ### Como rodar
 
 Requisitos: **JDK 25** e [Maven](https://maven.apache.org/).
+Recomendação de IDE: [InteliJ IDEA](https://www.jetbrains.com/idea/download/).
 
 ```bash
 mvn compile
