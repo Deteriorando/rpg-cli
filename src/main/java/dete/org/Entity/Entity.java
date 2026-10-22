@@ -4,7 +4,7 @@ import dete.org.Entity.Atributes.Damage;
 import dete.org.Entity.Atributes.Life;
 import dete.org.Entity.Atributes.Multiplier;
 import dete.org.Entity.Entities.Enemy;
-import dete.org.Systems.Combat.Effect;
+import dete.org.Systems.Controller.Effect;
 import dete.org.Systems.Interface.MenuInterface;
 
 public abstract class Entity implements EntityBehaviour {

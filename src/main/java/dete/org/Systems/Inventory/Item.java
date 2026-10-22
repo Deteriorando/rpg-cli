@@ -1,5 +1,7 @@
 package dete.org.Systems.Inventory;
 
+import dete.org.Entity.Entity;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -42,14 +44,13 @@ public abstract class Item {
     public String getDescription() { return description; }
     public ItemType getType() { return type; }
 
-    // Returns an unmodifiable view to protect the internal Set from direct external modifications
+
     public Set<ItemProperties> getProperties() {
         return Collections.unmodifiableSet(properties);
     }
     public int getMaxStackSize() { return maxStackSize; }
 
-    // Abstract method for each item to define what it does when used in the game
-    public abstract void use();
+    public abstract void use(Entity user);
 
     @Override
     public String toString() {

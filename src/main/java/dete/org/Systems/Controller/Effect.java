@@ -1,6 +1,4 @@
-package dete.org.Systems.Combat;
-
-import dete.org.Entity.Entity;
+package dete.org.Systems.Controller;
 
 /**
  * @param multiplier Ex: 0.85 para 15% de redução
