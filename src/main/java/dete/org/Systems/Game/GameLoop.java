@@ -3,8 +3,9 @@ package dete.org.Systems.Game;
 import dete.org.Entity.Classes;
 import dete.org.Entity.Entities.Enemy;
 import dete.org.Entity.Entities.Player;
-import dete.org.Systems.Combat.Controller;
+import dete.org.Systems.Controller.Controller;
 import dete.org.Systems.Interface.MenuInterface;
+import dete.org.Systems.Inventory.Items.HealthPotion;
 
 import java.util.Scanner;
 
@@ -34,6 +35,9 @@ public class GameLoop {
                 6,
                 "Joe"
         );
+
+        // Itens iniciais, só para testar o inventário
+        player.addItemToInventory(new HealthPotion(30), 3);
 
         while (runnable){
             MenuInterface.menu();
