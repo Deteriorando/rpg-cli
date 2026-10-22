@@ -75,6 +75,9 @@ itens deixados pelos inimigos), e as propriedades *equipável*, *item-chave* e
 Requisitos: **JDK 25** e [Maven](https://maven.apache.org/).
 Recomendação de IDE: [InteliJ IDEA](https://www.jetbrains.com/idea/download/).
 
+Rode o [Build.sh](build.sh) para fazer uma build do jogo. <br>
+ou desta forma:
+
 ```bash
 mvn compile
 java -cp target/classes dete.org.Main
