@@ -31,20 +31,42 @@ Cada atributo gerencia os seus próprios valores e tem um intervalo válido:
 Os limites se comportam de forma diferente na criação e depois dela:
 
 - **Ao criar a entidade (construtor):** qualquer valor fora do intervalo lança
-`IllegalArgumentException`. Uma classe nula lança `NullPointerException`.
+  `IllegalArgumentException`. Uma classe nula lança `NullPointerException`.
 - **Ao alterar depois (setters):**
   - Vida: valores abaixo de 0 viram 0 (a entidade morre) e valores acima de 2200
-  são cortados para 2200. Não lança exceção. Por isso a vida pode ficar
-  abaixo de 820 durante o jogo; o mínimo de 820 só vale na criação.
+    são cortados para 2200. Não lança exceção. Por isso a vida pode ficar
+    abaixo de 820 durante o jogo; o mínimo de 820 só vale na criação.
   - Dano e Multiplicador: valores abaixo do mínimo lançam
-  `IllegalArgumentException`, e valores acima do máximo são cortados para o máximo.
+    `IllegalArgumentException`, e valores acima do máximo são cortados para o máximo.
 
 ### Comportamentos
 
 - **Ataque:** causa o dano da entidade. Existe 30% de chance de acerto
-crítico, em que o dano é multiplicado pelo multiplicador.
+  crítico, em que o dano é multiplicado pelo multiplicador.
 - **Efeito:** se o alvo tiver um efeito ativo (como a postura defensiva), ele
-reduz o dano recebido uma única vez e depois é removido.
+  reduz o dano recebido uma única vez e depois é removido.
 - **Regeneração:** recupera vida igual ao valor da regeneração vezes o
-multiplicador, e depois entra em recarga por 4 rodadas.
+  multiplicador, e depois entra em recarga por 4 rodadas.
 - **Morte:** uma entidade está viva enquanto a vida for maior que 0.
+
+### Atributos por classe e criação de entidades
+
+Cada classe (`Classes`) guarda os seus atributos iniciais (vida, dano e
+multiplicador) em um único lugar: o próprio enum, em objetos `ClassStats`.
+Cada classe tem dois conjuntos, um para o jogador e outro para o inimigo, que
+podem ser diferentes.
+
+- **Jogador:** `new Player(Classes.HUMAN)`. Os atributos vêm da classe. Para
+  trocar de classe usa-se `player.changeClass(...)`. No fim de cada combate,
+  `player.resetToClassStats()` remove o efeito ativo, zera a recarga e restaura
+  os atributos da classe.
+- **Inimigo:** `new Enemy(classe, nome)`. A cada combate,
+  `ConfigureEnemy.createRandomEnemy()` cria um inimigo novo, com classe e nome
+  sorteados, então nada de uma luta passa para a próxima.
+- **Sem construtor com números soltos:** não é possível criar uma entidade
+  com uma classe e atributos que não combinam, porque os atributos sempre vêm
+  da classe.
+- **Nova classe:** basta adicionar uma constante em `Classes` com os dois
+  `ClassStats` (jogador e inimigo).
+- Os limites da tabela acima continuam valendo: se um `ClassStats` estiver
+  fora deles, a `IllegalArgumentException` aparece ao criar a entidade.
