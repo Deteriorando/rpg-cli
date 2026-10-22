@@ -105,10 +105,6 @@ public class Inventory {
         return total;
     }
 
-    public boolean contains(Item item, int quantity) {
-        return countOf(item) >= quantity;
-    }
-
     private void validateItem(Item item, int quantity) {
         if (item == null) {
             throw new IllegalArgumentException("Item cannot be null.");
@@ -116,6 +112,24 @@ public class Inventory {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be greater than zero.");
         }
+    }
+
+    public void listInventory() {
+        System.out.println("=== INVENTORY ===");
+        if (slots.isEmpty()) {
+            System.out.println("Your inventory is empty.");
+            return;
+        }
+
+        for (int i = 0; i < slots.size(); i++) {
+            InventorySlot slot = slots.get(i);
+            Item item = slot.getItem();
+            System.out.println((i + 1) + ". " + item.getName() + " [" + item.getType().name() + "]");
+        }
+    }
+
+    public boolean contains(Item item, int quantity) {
+        return countOf(item) >= quantity;
     }
 
     private boolean isStackable(Item item) {
@@ -132,20 +146,6 @@ public class Inventory {
 
     private boolean isSameItem(InventorySlot slot, Item item) {
         return slot.item.getId().equals(item.getId());
-    }
-
-    public void listInventory() {
-        System.out.println("=== INVENTORY ===");
-        if (slots.isEmpty()) {
-            System.out.println("Your inventory is empty.");
-            return;
-        }
-
-        for (int i = 0; i < slots.size(); i++) {
-            InventorySlot slot = slots.get(i);
-            Item item = slot.getItem();
-            System.out.println((i + 1) + ". " + item.getName() + " [" + item.getType().name() + "]");
-        }
     }
 
     public List<InventorySlot> getSlots() {
