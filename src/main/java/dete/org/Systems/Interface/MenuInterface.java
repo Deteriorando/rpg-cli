@@ -2,8 +2,12 @@ package dete.org.Systems.Interface;
 
 import dete.org.Entity.Entities.Enemy;
 import dete.org.Entity.Entities.Player;
-import dete.org.Systems.Combat.Effect;
+import dete.org.Systems.Controller.Effect;
+import dete.org.Systems.Inventory.Inventory;
+import dete.org.Systems.Inventory.Item;
+import dete.org.Systems.Inventory.ItemProperties;
 
+import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.IO.print;
@@ -53,13 +57,7 @@ public class MenuInterface {
         delay(timer);
         println("2 - Defender (-15% de dano do próximo ataque)");
         delay(timer);
-
-        if (player.canRegenerate()) {
-            println("3 - Regenerar [Pronto]");
-        } else {
-            println("3 - Regenerar [Aguarde " + player.getRegenCooldown() + " rodada(s)]");
-        }
-
+        println("3 - Usar item");
         delay(timer);
         print("Escolha sua ação: ");
     }
@@ -133,6 +131,62 @@ public class MenuInterface {
     public static void regenValueMessage(double value) {
         println("- Quantidade de vida recuperada: " + (int) value);
         delay(timerGeneral);
+    }
+
+    // --- Inventário ---
+
+    public static void inventoryScreen(Player player) {
+        println("\n=== INVENTÁRIO ===");
+
+        List<Inventory.InventorySlot> slots = player.getInventorySlots();
+        if (slots.isEmpty()) {
+            println("Seu inventário está vazio.");
+            return;
+        }
+
+        for (int i = 0; i < slots.size(); i++) {
+            Inventory.InventorySlot slot = slots.get(i);
+            Item item = slot.getItem();
+
+            String stack = item.hasProperty(ItemProperties.STACKABLE)
+                    ? " (x" + slot.getQuantity() + "/" + item.getMaxStackSize() + ")"
+                    : "";
+
+            println((i + 1) + " - " + item.getName() + stack + " [" + item.getType().name() + "]");
+        }
+    }
+
+    public static void askItemNumberMessage() {
+        print("Número do item (0 para voltar): ");
+    }
+
+    public static void invalidItemMessage() {
+        println("Esse item não existe!");
+        delay(timerGeneral);
+    }
+
+    public static void noItemsToUseMessage() {
+        println("Você não tem itens para usar.");
+        delay(timerGeneral);
+    }
+
+    public static void itemUsedMessage(Item item) {
+        println("🧪 Você usou " + item.getName() + "!");
+        delay(timerGeneral);
+    }
+
+    /**
+     * Lê uma opção numérica. Texto inválido devolve -1, sem deixar lixo no buffer do Scanner.
+     */
+    public static int readChoice(Scanner scan) {
+        int choice = -1;
+        if (scan.hasNextInt()) {
+            choice = scan.nextInt();
+        } else {
+            scan.next(); // descarta o texto inválido
+        }
+        scan.nextLine(); // consome o resto da linha
+        return choice;
     }
 
     public static void clearConsole() {
