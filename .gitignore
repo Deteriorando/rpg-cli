@@ -3,7 +3,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .kotlin
-src/main/java/dete/org/Systems/tests
+src/main/java/dete/org/core/tests
 
 ### IntelliJ IDEA ###
 .idea
