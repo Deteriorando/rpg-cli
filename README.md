@@ -69,16 +69,20 @@ itens deixados pelos inimigos), e as propriedades *equipável*, *item-chave* e
 - [Sistema de entidade](Document/EntitySystem.md): atributos, classes e como as entidades são criadas
 - [Sistema de inventário](Document/Inventory.md): slots, empilhamento e regras
 - [Sistema de itens](Document/Items.md): itens e propriedades
+- [Guia de comandos](Document/COMMANDS.md): como compilar e rodar o jogo
 
 ### Como rodar
 
 Requisitos: **JDK 25** e [Maven](https://maven.apache.org/).
-Recomendação de IDE: [InteliJ IDEA](https://www.jetbrains.com/idea/download/).
+Recomendação de IDE: [InteliJ IDEA](https://www.jetbrains.com/idea/download);
 
 Rode o [Build.sh](build.sh) para fazer uma build do jogo. <br>
 ou desta forma:
 
 ```bash
-mvn compile
-java -cp target/classes dete.org.Main
+mvn package
+java -jar target/RPG-CLI-0.4.jar
 ```
+
+Outras formas de rodar (como sem o Maven) estão no
+[Guia de comandos](Document/COMMANDS.md).
