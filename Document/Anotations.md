@@ -13,3 +13,8 @@ divertido queria poder fazer um jogo mais complexo, mas
 infelizmente eu não vou poder estar fazendo isso tão cedo
 de colocar uma interface gráfica para o jogo.
 
+Com base na experiência de teste de um jogador, O jogo
+está tudo certo, porém o dano é alto, defesa é quase 
+inutil e precisa ser melhorado.
+
+Sugestão: Fazer a defesa retornar dano para inimigo.
