@@ -1,6 +1,6 @@
 package dete.org.core.inventory;
 
-import dete.org.core.inventory.Exeptions.InventoryFullException;
+import dete.org.core.inventory.exceptions.InventoryFullException;
 
 import java.util.ArrayList;
 import java.util.Collections;

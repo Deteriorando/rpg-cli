@@ -1,4 +1,4 @@
-package dete.org.core.inventory.Items;
+package dete.org.core.inventory.items;
 
 import dete.org.core.entity.Entity;
 import dete.org.core.inventory.Item;

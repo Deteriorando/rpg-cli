@@ -5,7 +5,7 @@ import dete.org.core.entity.Entities.Enemy;
 import dete.org.core.entity.Entities.Player;
 import dete.org.core.controller.Controller;
 import dete.org.core.ui.MenuInterface;
-import dete.org.core.inventory.Items.HealthPotion;
+import dete.org.core.inventory.items.HealthPotion;
 
 import java.util.Scanner;
 
