@@ -4,6 +4,7 @@ target/
 !**/src/test/**/target/
 .kotlin
 src/main/java/dete/org/core/tests
+Document/QnA.md
 
 ### IntelliJ IDEA ###
 .idea
