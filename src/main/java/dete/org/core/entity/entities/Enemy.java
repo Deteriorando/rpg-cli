@@ -1,4 +1,4 @@
-package dete.org.core.entity.Entities;
+package dete.org.core.entity.entities;
 
 import dete.org.core.entity.ClassStats;
 import dete.org.core.entity.Classes;

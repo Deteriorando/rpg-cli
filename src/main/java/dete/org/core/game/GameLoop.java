@@ -1,8 +1,8 @@
 package dete.org.core.game;
 
 import dete.org.core.entity.Classes;
-import dete.org.core.entity.Entities.Enemy;
-import dete.org.core.entity.Entities.Player;
+import dete.org.core.entity.entities.Enemy;
+import dete.org.core.entity.entities.Player;
 import dete.org.core.controller.Controller;
 import dete.org.core.ui.MenuInterface;
 import dete.org.core.inventory.items.HealthPotion;

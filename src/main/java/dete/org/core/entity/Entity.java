@@ -1,9 +1,9 @@
 package dete.org.core.entity;
 
-import dete.org.core.entity.Atributes.Damage;
-import dete.org.core.entity.Atributes.Life;
-import dete.org.core.entity.Atributes.Multiplier;
-import dete.org.core.entity.Entities.Enemy;
+import dete.org.core.entity.atributes.Damage;
+import dete.org.core.entity.atributes.Life;
+import dete.org.core.entity.atributes.Multiplier;
+import dete.org.core.entity.entities.Enemy;
 import dete.org.core.controller.Effect;
 import dete.org.core.ui.MenuInterface;
 

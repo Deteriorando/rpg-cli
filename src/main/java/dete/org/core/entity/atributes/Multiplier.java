@@ -1,4 +1,4 @@
-package dete.org.core.entity.Atributes;
+package dete.org.core.entity.atributes;
 
 /**
  * <p>

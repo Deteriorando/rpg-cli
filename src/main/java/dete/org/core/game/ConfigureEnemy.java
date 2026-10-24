@@ -1,7 +1,7 @@
 package dete.org.core.game;
 
 import dete.org.core.entity.Classes;
-import dete.org.core.entity.Entities.Enemy;
+import dete.org.core.entity.entities.Enemy;
 import java.util.concurrent.ThreadLocalRandom;
 
 public record ConfigureEnemy() {

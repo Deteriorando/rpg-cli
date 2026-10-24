@@ -1,7 +1,7 @@
 package dete.org.core.ui;
 
-import dete.org.core.entity.Entities.Enemy;
-import dete.org.core.entity.Entities.Player;
+import dete.org.core.entity.entities.Enemy;
+import dete.org.core.entity.entities.Player;
 import dete.org.core.controller.Effect;
 import dete.org.core.inventory.Inventory;
 import dete.org.core.inventory.Item;

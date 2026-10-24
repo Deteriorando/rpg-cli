@@ -1,7 +1,7 @@
 package dete.org.core.controller;
 
-import dete.org.core.entity.Entities.Player;
-import dete.org.core.entity.Entities.Enemy;
+import dete.org.core.entity.entities.Player;
+import dete.org.core.entity.entities.Enemy;
 import dete.org.core.ui.MenuInterface;
 
 import java.util.Scanner;
