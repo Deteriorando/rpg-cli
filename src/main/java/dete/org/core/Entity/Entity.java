@@ -44,12 +44,12 @@ public abstract class Entity implements EntityBehaviour {
     @Override
     public void regeneration(double value) {
         boolean canMultiplyRegen = java.util.concurrent.ThreadLocalRandom.current().nextInt(100) < 30;
-        double regenValue = life.getValue() + (value * multiplier.getValue());
+        double regenValue = life.getValue() + value;
 
 
         if (canMultiplyRegen) {
             MenuInterface.multiplierActivatedMessage(this.getClass().getSimpleName());
-            life.setValue(regenValue);
+            life.setValue(regenValue * multiplier.getValue());
             return;
         }
         life.setValue(regenValue);
