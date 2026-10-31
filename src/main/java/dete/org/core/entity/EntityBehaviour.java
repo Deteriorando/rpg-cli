@@ -1,6 +1,7 @@
 package dete.org.core.entity;
 
+@SuppressWarnings("UnusedReturnValue")
 public interface EntityBehaviour {
-    void attack(Entity target);
-    void regeneration(double value);
+    double attack(Entity target);
+    double regeneration(double value);
 }
