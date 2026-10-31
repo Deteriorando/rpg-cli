@@ -5,7 +5,8 @@ import dete.org.core.entity.entities.Player;
 import dete.org.core.input.EnemyInput;
 import dete.org.core.input.InputScanner;
 import dete.org.core.input.UserAction;
-import dete.org.core.ui.MenuInterface;
+import dete.org.view.terminal.MenuIU;
+import dete.org.view.terminal.TerminalUI;
 
 import java.util.Scanner;
 
@@ -18,10 +19,10 @@ public class Controller {
 
     public static void start(Player player, dete.org.core.entity.entities.Enemy enemy, Scanner scan) {
         Controller combat = new Controller();
-        MenuInterface.startCombateMessage(player, enemy);
+        MenuIU.startCombateMessage(player, enemy);
 
         while (player.isAlive() && enemy.isAlive()) {
-            MenuInterface.roundHeaderMessage(combat.rounds, player, enemy);
+            MenuIU.roundHeaderMessage(combat.rounds, player, enemy);
 
             combat.executePlayerAction(player, enemy);
 
@@ -35,14 +36,14 @@ public class Controller {
             if (!enemy.canRegenerate()) enemy.updateCooldowns();
 
             combat.rounds++;
-            MenuInterface.pause(scan);
+            TerminalUI.pause(scan);
         }
 
-        MenuInterface.combateDividerMessage();
+        MenuIU.combateDividerMessage();
         if (player.isAlive()) {
-            MenuInterface.winMessage(enemy, combat.rounds);
+            MenuIU.winMessage(enemy, combat.rounds);
         } else {
-            MenuInterface.defeatMessage(enemy);
+            MenuIU.defeatMessage(enemy);
         }
 
         player.resetToClassStats();
@@ -52,15 +53,15 @@ public class Controller {
         boolean validAction;
 
         do {
-            MenuInterface.helpActionPlayer(player);
+            MenuIU.helpActionPlayer(player);
 
             InputScanner inputScanner = new InputScanner();
 
             int choice = inputScanner.getCodeInt();
             UserAction action = UserAction.getByCode(choice);
 
-            MenuInterface.clearConsole();
-            MenuInterface.delay(100);
+            TerminalUI.clearConsole();
+            TerminalUI.delay(100);
             validAction = new ActionPlayerController().execute(action, player, enemy);
 
         } while (!validAction);
@@ -73,8 +74,8 @@ public class Controller {
         int randomAction = enemyAction.getRandomCode(); // 1 a 5
         EnemyInput.Action action = EnemyInput.Action.getByCode(randomAction);
 
-        MenuInterface.enemyTurnHeaderMessage();
-        MenuInterface.delay(timer);
+        MenuIU.enemyTurnHeaderMessage();
+        TerminalUI.delay(timer);
         new ActionEnemyController().execute(action, enemy, player);
     }
 }
