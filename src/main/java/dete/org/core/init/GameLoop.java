@@ -5,7 +5,7 @@ import dete.org.core.entity.entities.Enemy;
 import dete.org.core.entity.entities.Player;
 import dete.org.core.controller.Controller;
 import dete.org.core.input.InputScanner;
-import dete.org.core.ui.MenuInterface;
+import dete.org.view.terminal.MenuIU;
 import dete.org.core.inventory.items.HealthPotion;
 
 import java.util.Scanner;
@@ -31,7 +31,7 @@ public class GameLoop {
         InputScanner input = new InputScanner();
 
         while (runnable){
-            MenuInterface.menu();
+            MenuIU.menu();
             int chose = input.getCodeInt();
 
             switch (chose) {
@@ -39,7 +39,7 @@ public class GameLoop {
                     Enemy enemy = ConfigureEnemy.createRandomEnemy();
                     Controller.start(player, enemy, scan);
                 }
-                case 2 -> MenuInterface.profile(player);
+                case 2 -> MenuIU.profile(player);
                 case 3 -> new ConfigurePlayer(scan).configure(player);
                 case 4 -> runnable = false;
             }
