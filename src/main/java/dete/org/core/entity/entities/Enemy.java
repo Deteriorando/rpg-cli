@@ -18,11 +18,6 @@ public class Enemy extends Entity {
         this.name = (name != null && !name.isBlank()) ? name : "No name";
     }
 
-    @Override
-    public void takeDamage(Enemy target) {
-        setLife(life.getValue() - target.getDamage().getValue());
-    }
-
 
     @Override
     public String toString() {
