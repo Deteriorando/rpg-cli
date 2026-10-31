@@ -2,12 +2,13 @@ package dete.org.core.controller;
 
 import dete.org.core.entity.entities.Player;
 import dete.org.core.input.InputScanner;
-import dete.org.core.ui.MenuInterface;
+import dete.org.core.inventory.Inventory;
+import dete.org.view.terminal.InventoryUI;
+import dete.org.view.terminal.MenuIU;
 import dete.org.core.inventory.Inventory.InventorySlot;
 import dete.org.core.inventory.Item;
 
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * <p>
@@ -26,29 +27,29 @@ public class InventoryController {
         InputScanner inputScanner = new InputScanner();
 
         if (slots.isEmpty()) {
-            MenuInterface.noItemsToUseMessage();
+            InventoryUI.noItemsToUseMessage();
             return false;
         }
 
-        MenuInterface.inventoryScreen(player);
-        MenuInterface.askItemNumberMessage();
+        InventoryUI.inventoryScreen(player);
+        InventoryUI.askItemNumberMessage();
         int number = inputScanner.getCodeInt();
 
         if (number == 0) {
             return false;
         }
         if (number < 1 || number > slots.size()) {
-            MenuInterface.invalidItemMessage();
+            InventoryUI.invalidItemMessage();
             return false;
         }
 
         Item item = slots.get(number - 1).getItem();
         if (!player.useItem(item)) {
-            MenuInterface.invalidItemMessage();
+            InventoryUI.invalidItemMessage();
             return false;
         }
 
-        MenuInterface.itemUsedMessage(item);
+        InventoryUI.itemUsedMessage(item);
         return true;
     }
 }
