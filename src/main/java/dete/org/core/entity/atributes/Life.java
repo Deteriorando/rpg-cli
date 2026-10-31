@@ -36,6 +36,15 @@ public class Life {
         this.value = Math.min(value, maxValue);
     }
 
+    public void takeDamage(double damageValue) {
+        setValue(getValue() - damageValue);
+    }
+
+    public void regenerate(double regenerateValue) {
+        setValue(getValue() + regenerateValue);
+    }
+
+
     @Override
     public String toString() {
         return "\n- Vida: " + value;
