@@ -3,7 +3,9 @@ package dete.org.core.init;
 import dete.org.core.entity.Classes;
 import dete.org.core.entity.entities.Player;
 import dete.org.core.input.InputScanner;
-import dete.org.core.ui.MenuInterface;
+import dete.org.view.terminal.Config.ConfigUI;
+import dete.org.view.terminal.MenuIU;
+import dete.org.view.terminal.TerminalUI;
 
 import java.util.Scanner;
 
@@ -24,11 +26,11 @@ public record ConfigurePlayer(Scanner scan) {
         InputScanner input = new InputScanner();
 
         for (int i = 0; i < classes.length; i++) {
-            MenuInterface.delay(400);
+            TerminalUI.delay(400);
             println((i + 1) + " - " + classes[i].getName());
         }
 
-        MenuInterface.delay(MenuInterface.timerGeneral);
+        TerminalUI.delay(ConfigUI.TIMER_GENERAL);
         print("Opção: ");
 
         int chose = input.getCodeInt();
@@ -41,10 +43,10 @@ public record ConfigurePlayer(Scanner scan) {
 
         player.changeClass(selectedClass);
 
-        MenuInterface.clearConsole();
+        TerminalUI.clearConsole();
         println("Classe escolhida: " + selectedClass.getName());
         print(player);
-        MenuInterface.delay(MenuInterface.timerGeneral);
+        TerminalUI.delay(ConfigUI.TIMER_GENERAL);
     }
 
 }
