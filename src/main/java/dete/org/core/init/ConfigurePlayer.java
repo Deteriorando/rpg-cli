@@ -1,7 +1,8 @@
-package dete.org.core.game;
+package dete.org.core.init;
 
 import dete.org.core.entity.Classes;
 import dete.org.core.entity.entities.Player;
+import dete.org.core.input.InputScanner;
 import dete.org.core.ui.MenuInterface;
 
 import java.util.Scanner;
@@ -20,22 +21,17 @@ public record ConfigurePlayer(Scanner scan) {
     public void configure(Player player) {
         println("---- Escolha sua Classe ----");
         Classes[] classes = Classes.values();
+        InputScanner input = new InputScanner();
 
         for (int i = 0; i < classes.length; i++) {
-            MenuInterface.delay(800 - (i * 100L));
+            MenuInterface.delay(400);
             println((i + 1) + " - " + classes[i].getName());
         }
 
         MenuInterface.delay(MenuInterface.timerGeneral);
         print("Opção: ");
 
-        if (!scan.hasNextInt()) {
-            println("Entrada inválida!");
-            scan.next(); // Limpa o texto inválido do buffer
-            return;
-        }
-
-        int chose = scan.nextInt();
+        int chose = input.getCodeInt();
         if (chose < 1 || chose > classes.length) {
             println("Opção fora do intervalo!");
             return;
