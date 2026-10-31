@@ -1,9 +1,10 @@
-package dete.org.core.game;
+package dete.org.core.init;
 
 import dete.org.core.entity.Classes;
 import dete.org.core.entity.entities.Enemy;
 import dete.org.core.entity.entities.Player;
 import dete.org.core.controller.Controller;
+import dete.org.core.input.InputScanner;
 import dete.org.core.ui.MenuInterface;
 import dete.org.core.inventory.items.HealthPotion;
 
@@ -27,9 +28,11 @@ public class GameLoop {
         // Itens iniciais, só para testar o inventário
         player.addItemToInventory(new HealthPotion(80), 10);
 
+        InputScanner input = new InputScanner();
+
         while (runnable){
             MenuInterface.menu();
-            int chose = scan.nextInt();
+            int chose = input.getCodeInt();
 
             switch (chose) {
                 case 1 -> {

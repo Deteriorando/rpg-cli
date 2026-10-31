@@ -1,6 +1,7 @@
 package dete.org.core.controller;
 
 import dete.org.core.entity.entities.Player;
+import dete.org.core.input.InputScanner;
 import dete.org.core.ui.MenuInterface;
 import dete.org.core.inventory.Inventory.InventorySlot;
 import dete.org.core.inventory.Item;
@@ -20,8 +21,9 @@ public class InventoryController {
      * Devolve true se um item foi usado (o turno é gasto) e false se o jogador
      * desistiu ou escolheu algo inválido (o turno não é gasto).
      */
-    public static boolean useItemInCombat(Player player, Scanner scan) {
+    public static boolean useItemInCombat(Player player) {
         List<InventorySlot> slots = player.getInventorySlots();
+        InputScanner inputScanner = new InputScanner();
 
         if (slots.isEmpty()) {
             MenuInterface.noItemsToUseMessage();
@@ -30,7 +32,7 @@ public class InventoryController {
 
         MenuInterface.inventoryScreen(player);
         MenuInterface.askItemNumberMessage();
-        int number = MenuInterface.readChoice(scan);
+        int number = inputScanner.getCodeInt();
 
         if (number == 0) {
             return false;
