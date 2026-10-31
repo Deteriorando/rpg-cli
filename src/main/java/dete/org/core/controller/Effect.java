@@ -1,12 +1,12 @@
 package dete.org.core.controller;
 
 /**
- * @param multiplier Ex: 0.85 para 15% de redução
+ * @param valueEffect Ex: 0.85 para 15% de redução
  */
-public record Effect(String name, double multiplier) {
+public record Effect(String name, double valueEffect) {
 
     public double apply(double baseValue) {
-        return baseValue * multiplier;
+        return baseValue * valueEffect;
     }
 
     @Override
