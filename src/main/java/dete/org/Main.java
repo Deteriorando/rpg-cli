@@ -1,9 +1,9 @@
 package dete.org;
 
-import dete.org.core.game.GameLoop;
+import dete.org.core.init.GameLoop;
 
 public class Main {
-     void main(){
+     public void main(){
         GameLoop.run();
-    }
+     }
 }
