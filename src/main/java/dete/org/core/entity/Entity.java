@@ -3,9 +3,9 @@ package dete.org.core.entity;
 import dete.org.core.entity.atributes.Damage;
 import dete.org.core.entity.atributes.Life;
 import dete.org.core.entity.atributes.Multiplier;
-import dete.org.core.entity.entities.Enemy;
 import dete.org.core.controller.Effect;
-import dete.org.core.ui.MenuInterface;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Entity implements EntityBehaviour {
     protected Life life;
@@ -25,51 +25,72 @@ public abstract class Entity implements EntityBehaviour {
         this.classes = type;
     }
 
+    /**
+     * Realiza um ataque contra uma entidade.
+     *
+     * <p>
+     * O dano pode ser reduzido por um efeito defensivo presente no alvo.
+     * Após o cálculo, o dano é aplicado à vida do alvo. <br> <br>
+     *
+     * Pode haver uma chance de multiplicar o dano.
+     * </p>
+     *
+     * @param target entidade que receberá o dano
+     * @return valor final do dano causado ao alvo
+     */
     @Override
-    public void attack(Entity target) {
-        double damageToDeal = calculateDamageValue();
-        boolean hadEffect = target.hasEffect();
-        if (hadEffect) {
+    public double attack(Entity target) {
+        double damageToDeal = this.damage.getValue();
+
+        if (rollChanceMultiplier(30)) {
+            damageToDeal *= multiplier.getValue();
+        }
+
+        if (target.hasEffect()) {
             damageToDeal = target.getEffect().apply(damageToDeal);
             target.clearEffect();
         }
 
-        int currentLife = (int) Math.round(target.getLife().getValue());
-        target.getLife().setValue(currentLife - damageToDeal);
+        target.getLife().takeDamage(damageToDeal);
 
-        String attackerName = (this instanceof Enemy) ? ((Enemy) this).getName() : "Player";
-        MenuInterface.damageDealtMessage(attackerName, damageToDeal);
+        return damageToDeal;
     }
 
+    /**
+     * Regenera a vida da entidade.
+     *
+     * <p>Existe uma chance de 30% de aplicar o multiplicador de regeneração.
+     * O valor calculado é então aplicado à vida da entidade.</p>
+     *
+     * @param value valor base da regeneração
+     * @return valor total da cura calculada, independentemente de quanto foi
+     *         efetivamente acrescentado à vida
+     */
     @Override
-    public void regeneration(double value) {
-        boolean canMultiplyRegen = java.util.concurrent.ThreadLocalRandom.current().nextInt(100) < 30;
-        double regenValue = life.getValue() + value;
-
+    public double regeneration(double value) {
+        boolean canMultiplyRegen = rollChanceMultiplier(30);
 
         if (canMultiplyRegen) {
-            MenuInterface.multiplierActivatedMessage(this.getClass().getSimpleName());
-            life.setValue(regenValue * multiplier.getValue());
-            return;
-        }
-        life.setValue(regenValue);
-    }
-
-    private double calculateDamageValue() {
-        boolean isCritical = java.util.concurrent.ThreadLocalRandom.current().nextInt(100) < 30;
-
-        if (isCritical) {
-            MenuInterface.multiplierActivatedMessage(this.getClass().getSimpleName());
-            return this.damage.getValue() * this.multiplier.getValue();
+            value *= multiplier.getValue();
         }
 
-        return this.damage.getValue();
+        life.regenerate(value);
+
+        return value;
     }
 
     public void updateCooldowns() {
         if (regenCooldown > 0) {
             regenCooldown--;
         }
+    }
+
+    public boolean rollChanceMultiplier(int chance) {
+        if (chance < 0 || chance > 100) {
+            throw new IllegalArgumentException("Chance deve estar entre 0 e 100.");
+        }
+
+        return ThreadLocalRandom.current().nextInt(100) < chance;
     }
 
     public boolean isAlive() { return this.life.getValue() > 0; }
@@ -83,8 +104,6 @@ public abstract class Entity implements EntityBehaviour {
     public int getRegenCooldown() { return regenCooldown; }
     public void triggerRegenCooldown() { this.regenCooldown = 4; }
     public void resetCooldowns() { this.regenCooldown = 0; }
-
-    public abstract void takeDamage(Enemy target);
 
     public void setLife(double life) { this.life.setValue(life); }
     public void setDamage(double damage) { this.damage.setValue(damage); }
