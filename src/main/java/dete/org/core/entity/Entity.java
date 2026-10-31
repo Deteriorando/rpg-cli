@@ -1,5 +1,6 @@
 package dete.org.core.entity;
 
+import dete.org.core.dto.AttackResult;
 import dete.org.core.entity.atributes.Damage;
 import dete.org.core.entity.atributes.Life;
 import dete.org.core.entity.atributes.Multiplier;
@@ -39,10 +40,11 @@ public abstract class Entity implements EntityBehaviour {
      * @return valor final do dano causado ao alvo
      */
     @Override
-    public double attack(Entity target) {
+    public AttackResult attack(Entity target) {
         double damageToDeal = this.damage.getValue();
+        boolean isCritical = rollChanceMultiplier(30);
 
-        if (rollChanceMultiplier(30)) {
+        if (isCritical) {
             damageToDeal *= multiplier.getValue();
         }
 
@@ -53,7 +55,7 @@ public abstract class Entity implements EntityBehaviour {
 
         target.getLife().takeDamage(damageToDeal);
 
-        return damageToDeal;
+        return new AttackResult(damageToDeal, isCritical);
     }
 
     /**
