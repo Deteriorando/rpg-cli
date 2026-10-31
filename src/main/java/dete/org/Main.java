@@ -65,7 +65,7 @@ import dete.org.core.init.GameLoop;
  */
 
 public class Main {
-     public void main(){
+     public static void main(String[] args){
         GameLoop.run();
      }
 }
