@@ -26,11 +26,6 @@ public class Player extends Entity {
     }
 
     @Override
-    public void takeDamage(Enemy target) {
-        life.setValue(life.getValue() - target.getDamage().getValue());
-    }
-
-    @Override
     public String toString() {
         return "- Atributos do Player -\n" + life + damage + classes + multiplier;
     }
