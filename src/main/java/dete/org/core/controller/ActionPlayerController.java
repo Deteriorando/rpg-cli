@@ -1,5 +1,6 @@
 package dete.org.core.controller;
 
+import dete.org.core.dto.AttackResult;
 import dete.org.core.entity.entities.Enemy;
 import dete.org.core.entity.entities.Player;
 import dete.org.core.input.UserAction;
@@ -9,8 +10,9 @@ public class ActionPlayerController {
     public boolean execute(UserAction action, Player  player, Enemy enemy) {
         switch (action) {
             case ATTACK -> {
-                double damage = player.attack(enemy);
-                MenuInterface.damageDealtMessage("Player", damage);
+                AttackResult result = player.attack(enemy);
+                if (result.critical()) MenuInterface.multiplierActivatedMessage("Player");
+                MenuInterface.damageDealtMessage("Player", result.damage());
                 return true;
             }
             case DEFENCE -> {
