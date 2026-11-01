@@ -7,7 +7,7 @@ import dete.org.core.inventory.ItemProperties;
 
 import java.util.List;
 
-import static dete.org.view.terminal.Config.ConfigUI.TIMER_GENERAL;
+import static dete.org.view.terminal.config.ConfigUI.TIMER_GENERAL;
 import static java.lang.IO.print;
 import static java.lang.IO.println;
 
