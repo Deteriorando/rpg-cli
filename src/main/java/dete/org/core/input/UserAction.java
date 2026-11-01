@@ -1,5 +1,11 @@
 package dete.org.core.input;
 
+/**
+ * Representa as ações que o jogador pode realizar durante o combate.
+ *
+ * <p>Cada ação possui um código utilizado para identificar a escolha
+ * do jogador e um nome utilizado na apresentação.</p>
+ */
 public enum UserAction {
     ATTACK(1, "Atacar"),
     DEFENCE(2, "Defender"),

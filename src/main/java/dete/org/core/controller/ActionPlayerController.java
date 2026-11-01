@@ -8,6 +8,12 @@ import dete.org.core.input.InputScanner;
 import dete.org.core.input.UserAction;
 import dete.org.core.presenters.InventoryPresenter;
 
+/**
+ * Controla as ações disponíveis ao jogador durante o combate.
+ *
+ * <p>Responsável por interpretar a ação escolhida e delegar sua execução
+ * às entidades ou ao sistema de inventário.</p>
+ */
 public class ActionPlayerController {
 
     private final InventoryController inventoryController;

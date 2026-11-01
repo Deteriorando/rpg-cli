@@ -9,6 +9,13 @@ import dete.org.core.input.UserAction;
 import dete.org.core.presenters.InventoryPresenter;
 import dete.org.core.presenters.MenuPresenter;
 
+/**
+ * Coordena o fluxo principal de um combate entre um jogador e um inimigo.
+ *
+ * <p>Responsável por controlar as rodadas, solicitar ações do jogador,
+ * executar as ações do inimigo e comunicar os eventos de apresentação
+ * através dos presenters.</p>
+ */
 public class Controller {
     protected int rounds;
 

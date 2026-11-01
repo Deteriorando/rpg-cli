@@ -7,6 +7,12 @@ import dete.org.core.entity.entities.Player;
 import dete.org.view.terminal.MenuIU;
 import dete.org.view.terminal.TerminalUI;
 
+/**
+ * Implementação terminal do {@link MenuPresenter}.
+ *
+ * <p>Converte as solicitações de apresentação do núcleo do jogo
+ * em mensagens exibidas através da interface de terminal.</p>
+ */
 public class TerminalMenuPresenter implements MenuPresenter {
     @Override
     public void presenterStart(Player player, Enemy enemy) {

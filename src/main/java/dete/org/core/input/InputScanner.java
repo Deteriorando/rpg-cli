@@ -2,6 +2,12 @@ package dete.org.core.input;
 
 import java.util.Scanner;
 
+/**
+ * Centraliza a leitura de entradas do usuário através do terminal.
+ *
+ * <p>Encapsula o {@link java.util.Scanner} utilizado para ler entradas
+ * do {@code System.in} e fornece operações específicas utilizadas pelo jogo.</p>
+ */
 public class InputScanner {
     private final Scanner scanner = new Scanner(System.in);
 

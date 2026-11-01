@@ -5,6 +5,12 @@ import dete.org.core.inventory.Item;
 import dete.org.core.presenters.InventoryPresenter;
 import dete.org.view.terminal.InventoryUI;
 
+/**
+ * Implementação terminal do {@link InventoryPresenter}.
+ *
+ * <p>Responsável por apresentar informações e mensagens relacionadas
+ * ao inventário utilizando a interface de terminal.</p>
+ */
 public class TerminalInventoryPresenter implements InventoryPresenter {
 
     @Override

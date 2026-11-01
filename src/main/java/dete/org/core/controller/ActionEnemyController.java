@@ -6,6 +6,11 @@ import dete.org.core.entity.entities.Enemy;
 import dete.org.core.entity.entities.Player;
 import dete.org.core.input.EnemyInput;
 
+/**
+ * Controla as ações executadas pelo inimigo durante o combate.
+ *
+ * <p>Seleciona e executa ações como ataque, defesa e regeneração.</p>
+ */
 public class ActionEnemyController {
 
     private final CombatPresenter actionPresenter;
@@ -28,7 +33,7 @@ public class ActionEnemyController {
                 if (enemy.canRegenerate()) {
                     enemy.regeneration(80);
                     enemy.triggerRegenCooldown();
-                    actionPresenter.presenterEnemyRegenaration(enemy);
+                    actionPresenter.presenterEnemyRegeneration(enemy);
                 } else {
                     // Se estiver em cooldown, a IA ataca como fallback
                     AttackResult result = enemy.attack(player);

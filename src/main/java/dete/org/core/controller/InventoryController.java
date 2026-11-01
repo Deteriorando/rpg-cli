@@ -9,10 +9,10 @@ import dete.org.core.inventory.Item;
 import java.util.List;
 
 /**
- * <p>
- *     Controla o uso de itens do inventário durante o combate (entrada do jogador
- *     e chamadas ao Player). Os textos ficam todos no MenuInterface.
- * </p>
+ * Controla o uso de itens do inventário durante o combate.
+ *
+ * <p>Responsável por receber a escolha do jogador, validar o item
+ * selecionado e solicitar ao jogador a utilização do item.</p>
  */
 public class InventoryController {
 
