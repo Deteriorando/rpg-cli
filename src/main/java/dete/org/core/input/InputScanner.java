@@ -10,7 +10,9 @@ public class InputScanner {
      * */
     public int getCodeInt() {
         if (scanner.hasNextInt()) {
-            return scanner.nextInt();
+            int value = scanner.nextInt();
+            next();
+            return value;
         }
 
         // descarta a entrada inválida
