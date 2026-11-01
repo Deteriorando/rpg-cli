@@ -1,12 +1,9 @@
 package dete.org.view.terminal;
 
-import dete.org.core.input.InputScanner;
-
-import static java.lang.IO.print;
-import static java.lang.IO.println;
+import dete.org.core.input.PlayerInput;
 
 public class TerminalUI {
-    public static void pause(InputScanner scan) {
+    public static void pause(PlayerInput scan) {
         println("\nPróxima rodada...");
         println("- Pressione ENTER para continuar -");
         scan.next();
@@ -39,5 +36,14 @@ public class TerminalUI {
                 println("");
             }
         }
+    }
+
+    //Compatibilidade
+    public static void println(String message) {
+        System.out.println(message);
+    }
+
+    public static void print(String message) {
+        System.out.println(message);
     }
 }
