@@ -1,4 +1,4 @@
-package dete.org.core.init;
+package dete.org.core.entity.configEntities;
 
 import dete.org.core.entity.Classes;
 import dete.org.core.entity.entities.Enemy;
