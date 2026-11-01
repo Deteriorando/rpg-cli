@@ -1,15 +1,17 @@
 package dete.org.view.terminal;
 
+import dete.org.core.input.InputScanner;
+
 import java.util.Scanner;
 
 import static java.lang.IO.print;
 import static java.lang.IO.println;
 
 public class TerminalUI {
-    public static void pause(Scanner scan) {
+    public static void pause(InputScanner scan) {
         println("\nPróxima rodada...");
         println("- Pressione ENTER para continuar -");
-        scan.nextLine();
+        scan.next();
     }
 
     public static void delay(long milliseconds) {
