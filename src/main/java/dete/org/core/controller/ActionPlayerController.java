@@ -1,10 +1,10 @@
 package dete.org.core.controller;
 
+import dete.org.core.input.PlayerInput;
 import dete.org.core.presenters.CombatPresenter;
 import dete.org.core.dto.AttackResult;
 import dete.org.core.entity.entities.Enemy;
 import dete.org.core.entity.entities.Player;
-import dete.org.core.input.InputScanner;
 import dete.org.core.input.UserAction;
 import dete.org.core.presenters.InventoryPresenter;
 
@@ -19,11 +19,11 @@ public class ActionPlayerController {
     private final InventoryController inventoryController;
     private final CombatPresenter actionPresenter;
 
-    public ActionPlayerController(InputScanner scanner,
+    public ActionPlayerController(PlayerInput input,
                                   CombatPresenter actionPresenter,
                                   InventoryPresenter inventoryPresenter
                                   ) {
-        inventoryController = new InventoryController(scanner, inventoryPresenter);
+        inventoryController = new InventoryController(input, inventoryPresenter);
         this.actionPresenter = actionPresenter;
     }
 

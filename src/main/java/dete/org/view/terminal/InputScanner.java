@@ -1,4 +1,6 @@
-package dete.org.core.input;
+package dete.org.view.terminal;
+
+import dete.org.core.input.PlayerInput;
 
 import java.util.Scanner;
 
@@ -8,7 +10,7 @@ import java.util.Scanner;
  * <p>Encapsula o {@link java.util.Scanner} utilizado para ler entradas
  * do {@code System.in} e fornece operações específicas utilizadas pelo jogo.</p>
  */
-public class InputScanner {
+public class InputScanner implements PlayerInput {
     private final Scanner scanner = new Scanner(System.in);
 
     /**

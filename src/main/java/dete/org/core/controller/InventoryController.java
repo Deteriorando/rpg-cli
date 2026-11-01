@@ -1,7 +1,7 @@
 package dete.org.core.controller;
 
 import dete.org.core.entity.entities.Player;
-import dete.org.core.input.InputScanner;
+import dete.org.core.input.PlayerInput;
 import dete.org.core.presenters.InventoryPresenter;
 import dete.org.core.inventory.Inventory.InventorySlot;
 import dete.org.core.inventory.Item;
@@ -16,11 +16,11 @@ import java.util.List;
  */
 public class InventoryController {
 
-    private final InputScanner scanner;
+    private final PlayerInput input;
     private final InventoryPresenter inventoryPresenter;
 
-    public InventoryController(InputScanner scanner, InventoryPresenter inventoryPresenter) {
-        this.scanner = scanner;
+    public InventoryController(PlayerInput input, InventoryPresenter inventoryPresenter) {
+        this.input = input;
         this.inventoryPresenter = inventoryPresenter;
     }
 
@@ -38,7 +38,7 @@ public class InventoryController {
 
         inventoryPresenter.presenterInventoryScreen(player);
         inventoryPresenter.presenterAskItemNumber();
-        int number = scanner.getCodeInt();
+        int number = input.getCodeInt();
 
         if (number == 0) {
             return false;
