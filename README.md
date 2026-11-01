@@ -148,6 +148,8 @@ Mais detalhes no [Guia de comandos](Document/COMMANDS.md).
 - O combate ainda é um laço que espera a escolha do jogador, o que precisará ser
   adaptado para uma interface gráfica.
 
+Isso sera adicionado futuramente mas por enquanto
+Deixarei do jeito que está.
+
 **Ideias para os próximos passos:**
-- Itens deixados pelos inimigos e uma opção para largar itens.
-- Uma interface gráfica, como já comentado na introdução.
+- Interface gráfica.
