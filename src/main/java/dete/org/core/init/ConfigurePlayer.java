@@ -17,12 +17,11 @@ import static java.lang.IO.println;
  *  </p>
  * */
 
-public record ConfigurePlayer(Scanner scan) {
+public record ConfigurePlayer(InputScanner input) {
 
     public void configure(Player player) {
         println("---- Escolha sua Classe ----");
         Classes[] classes = Classes.values();
-        InputScanner input = new InputScanner();
 
         for (int i = 0; i < classes.length; i++) {
             TerminalUI.delay(400);
