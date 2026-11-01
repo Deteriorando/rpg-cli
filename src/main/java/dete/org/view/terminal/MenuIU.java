@@ -3,7 +3,7 @@ package dete.org.view.terminal;
 import dete.org.core.entity.entities.Enemy;
 import dete.org.core.entity.entities.Player;
 
-import static dete.org.view.terminal.Config.ConfigUI.TIMER_GENERAL;
+import static dete.org.view.terminal.config.ConfigUI.TIMER_GENERAL;
 import static java.lang.IO.print;
 import static java.lang.IO.println;
 
@@ -30,8 +30,9 @@ public class MenuIU {
 
     public static void startCombateMessage(Player player, Enemy enemy) {
         TerminalUI.clearConsole();
-        println("\n⚔️ INÍCIO DO COMBATE: " + player.getClasses().getName()
-                + " VS " + enemy.getName() + "(" + enemy.getClasses().getName() + ")" + " ⚔️");
+        println("\n⚔️ INÍCIO DO COMBATE: "+ "(" + player.getClasses().getName() + ") - " + player.getName()
+                + " VS "
+                + enemy.getName() + " - (" + enemy.getClasses().getName() + ")" + " ⚔️");
         TerminalUI.delay(1500);
     }
 
@@ -56,7 +57,9 @@ public class MenuIU {
     }
 
     public static void enemyTurnHeaderMessage() {
+        long timer = 300;
         println("\n--- Turno do Inimigo ---");
+        TerminalUI.delay(timer);
     }
 
     public static void invalidChoiceMessage() {
