@@ -3,6 +3,7 @@ package dete.org.core.entity.entities;
 import dete.org.core.entity.ClassStats;
 import dete.org.core.entity.Classes;
 import dete.org.core.entity.Entity;
+import dete.org.core.inventory.DropResult;
 import dete.org.core.inventory.Inventory;
 import dete.org.core.inventory.Item;
 import dete.org.core.inventory.ItemProperties;
@@ -67,15 +68,15 @@ public class Player extends Entity {
     }
 
     /** Larga o item. Retorna false se ele não puder ser largado ou o jogador não tiver a quantidade. */
-    public boolean dropItem(Item item, int quantity) {
+    public DropResult dropItem(Item item, int quantity) {
         if (item.hasProperty(ItemProperties.NON_DROPPABLE)) {
-            return false;
+            return DropResult.NON_DROPPABLE;
         }
         if (!inventory.contains(item, quantity)) {
-            return false;
+            return DropResult.NOT_ENOUGH_ITEMS;
         }
         inventory.removeItem(item, quantity);
-        return true;
+        return DropResult.SUCCESS;
     }
 
     /** Usa o item. Itens CONSUMABLE perdem uma unidade depois do uso. */
