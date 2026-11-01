@@ -8,7 +8,6 @@ import dete.org.core.input.UserAction;
 import dete.org.view.terminal.MenuIU;
 import dete.org.view.terminal.TerminalUI;
 
-import java.util.Scanner;
 
 public class Controller {
     protected int rounds;
@@ -17,14 +16,14 @@ public class Controller {
         this.rounds = 1;
     }
 
-    public static void start(Player player, dete.org.core.entity.entities.Enemy enemy, Scanner scan) {
+    public static void start(Player player, Enemy enemy, InputScanner scanner) {
         Controller combat = new Controller();
         MenuIU.startCombateMessage(player, enemy);
 
         while (player.isAlive() && enemy.isAlive()) {
             MenuIU.roundHeaderMessage(combat.rounds, player, enemy);
 
-            combat.executePlayerAction(player, enemy);
+            combat.executePlayerAction(player, enemy, scanner);
 
             if (!enemy.isAlive()) {
                 break;
@@ -36,7 +35,7 @@ public class Controller {
             if (!enemy.canRegenerate()) enemy.updateCooldowns();
 
             combat.rounds++;
-            TerminalUI.pause(scan);
+            TerminalUI.pause(scanner);
         }
 
         MenuIU.combateDividerMessage();
@@ -49,20 +48,18 @@ public class Controller {
         player.resetToClassStats();
     }
 
-    private void executePlayerAction(Player player, Enemy enemy) {
+    private void executePlayerAction(Player player, Enemy enemy, InputScanner inputScanner) {
         boolean validAction;
 
         do {
             MenuIU.helpActionPlayer(player);
-
-            InputScanner inputScanner = new InputScanner();
 
             int choice = inputScanner.getCodeInt();
             UserAction action = UserAction.getByCode(choice);
 
             TerminalUI.clearConsole();
             TerminalUI.delay(100);
-            validAction = new ActionPlayerController().execute(action, player, enemy);
+            validAction = new ActionPlayerController(inputScanner).execute(action, player, enemy);
 
         } while (!validAction);
     }
