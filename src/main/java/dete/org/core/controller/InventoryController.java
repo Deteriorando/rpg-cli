@@ -2,9 +2,7 @@ package dete.org.core.controller;
 
 import dete.org.core.entity.entities.Player;
 import dete.org.core.input.InputScanner;
-import dete.org.core.inventory.Inventory;
-import dete.org.view.terminal.InventoryUI;
-import dete.org.view.terminal.MenuIU;
+import dete.org.core.presenters.InventoryPresenter;
 import dete.org.core.inventory.Inventory.InventorySlot;
 import dete.org.core.inventory.Item;
 
@@ -19,9 +17,11 @@ import java.util.List;
 public class InventoryController {
 
     private final InputScanner scanner;
+    private final InventoryPresenter inventoryPresenter;
 
-    public InventoryController(InputScanner scanner) {
+    public InventoryController(InputScanner scanner, InventoryPresenter inventoryPresenter) {
         this.scanner = scanner;
+        this.inventoryPresenter = inventoryPresenter;
     }
 
     /**
@@ -32,29 +32,29 @@ public class InventoryController {
         List<InventorySlot> slots = player.getInventorySlots();
 
         if (slots.isEmpty()) {
-            InventoryUI.noItemsToUseMessage();
+            inventoryPresenter.presenterNoItemsToUse();
             return false;
         }
 
-        InventoryUI.inventoryScreen(player);
-        InventoryUI.askItemNumberMessage();
+        inventoryPresenter.presenterInventoryScreen(player);
+        inventoryPresenter.presenterAskItemNumber();
         int number = scanner.getCodeInt();
 
         if (number == 0) {
             return false;
         }
         if (number < 1 || number > slots.size()) {
-            InventoryUI.invalidItemMessage();
+            inventoryPresenter.presenterInvalidItem();
             return false;
         }
 
         Item item = slots.get(number - 1).getItem();
         if (!player.useItem(item)) {
-            InventoryUI.invalidItemMessage();
+            inventoryPresenter.presenterInvalidItem();
             return false;
         }
 
-        InventoryUI.itemUsedMessage(item);
+        inventoryPresenter.presenterItemUsed(item);
         return true;
     }
 }
