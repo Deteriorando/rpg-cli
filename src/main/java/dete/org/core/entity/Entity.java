@@ -9,6 +9,7 @@ import dete.org.core.controller.Effect;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Entity implements EntityBehaviour {
+    protected String name;
     protected Life life;
     protected Damage damage;
     protected Classes classes;
@@ -24,6 +25,11 @@ public abstract class Entity implements EntityBehaviour {
         this.damage = new Damage(damage);
         this.multiplier = new Multiplier(multiplied);
         this.classes = type;
+    }
+
+    public Entity(double life, double damage, Classes type, double multiplied, String name){
+        this(life, damage, type, multiplied);
+        this.name = name != null ? name : getClass().getSimpleName();
     }
 
     /**
@@ -120,4 +126,5 @@ public abstract class Entity implements EntityBehaviour {
     public Multiplier getMultiplied() { return multiplier; }
     public Life getLife() { return life; }
     public Effect getEffect() { return activeEffect; }
+    public String getName() { return name; }
 }
