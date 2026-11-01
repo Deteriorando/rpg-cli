@@ -15,4 +15,5 @@ public interface InventoryPresenter {
     void presenterInvalidItem();
     void presenterItemUsed(Item item);
     void presenterNoItemsToUse();
+    void presenterNotCanDropItem();
 }
