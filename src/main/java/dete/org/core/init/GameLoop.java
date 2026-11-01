@@ -20,8 +20,6 @@ public class GameLoop {
 
     private static boolean runnable = true;
 
-    protected static Scanner scan = new Scanner(System.in);
-
     public static void run() {
         Player player = new Player(Classes.HUMAN);
 
@@ -37,10 +35,10 @@ public class GameLoop {
             switch (chose) {
                 case 1 -> {
                     Enemy enemy = ConfigureEnemy.createRandomEnemy();
-                    Controller.start(player, enemy, scan);
+                    Controller.start(player, enemy, input);
                 }
                 case 2 -> MenuIU.profile(player);
-                case 3 -> new ConfigurePlayer(scan).configure(player);
+                case 3 -> new ConfigurePlayer(input).configure(player);
                 case 4 -> runnable = false;
             }
         }
