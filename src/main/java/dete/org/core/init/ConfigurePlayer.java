@@ -3,10 +3,8 @@ package dete.org.core.init;
 import dete.org.core.entity.Classes;
 import dete.org.core.entity.entities.Player;
 import dete.org.core.input.InputScanner;
-import dete.org.view.terminal.Config.ConfigUI;
+import dete.org.view.terminal.config.ConfigUI;
 import dete.org.view.terminal.TerminalUI;
-
-import java.util.Scanner;
 
 import static java.lang.IO.print;
 import static java.lang.IO.println;
