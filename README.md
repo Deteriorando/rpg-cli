@@ -148,8 +148,5 @@ Mais detalhes no [Guia de comandos](Document/COMMANDS.md).
 - O combate ainda é um laço que espera a escolha do jogador, o que precisará ser
   adaptado para uma interface gráfica.
 
-Isso sera adicionado futuramente mas por enquanto,
-vai ficar do jeito que está.
-
 **Ideias para os próximos passos:**
 - Interface gráfica.
