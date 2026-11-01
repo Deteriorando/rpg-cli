@@ -18,7 +18,7 @@ uma interface gráfica e mais mecânicas. Mas por enquanto é só isso.
 
 Feito com Java 25 e Maven.
 
-**ATENÇÃO: o jogo continua incompleto!**
+**ATENÇÃO: Ainda em Desenvolvimento para a versão 1.0!**
 
 ### Como jogar
 
