@@ -114,20 +114,6 @@ public class Inventory {
         }
     }
 
-    public void listInventory() {
-        System.out.println("=== INVENTORY ===");
-        if (slots.isEmpty()) {
-            System.out.println("Your inventory is empty.");
-            return;
-        }
-
-        for (int i = 0; i < slots.size(); i++) {
-            InventorySlot slot = slots.get(i);
-            Item item = slot.getItem();
-            System.out.println((i + 1) + ". " + item.getName() + " [" + item.getType().name() + "]");
-        }
-    }
-
     public boolean contains(Item item, int quantity) {
         return countOf(item) >= quantity;
     }
