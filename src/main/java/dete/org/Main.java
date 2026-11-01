@@ -1,6 +1,6 @@
 package dete.org;
 
-import dete.org.core.init.GameLoop;
+import dete.org.init.GameLoop;
 
 /**
  * -----------------------------------------------:::::---::::::::::-----===---=++**+++====++
