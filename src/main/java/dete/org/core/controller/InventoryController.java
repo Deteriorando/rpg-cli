@@ -18,13 +18,18 @@ import java.util.List;
  */
 public class InventoryController {
 
+    private final InputScanner scanner;
+
+    public InventoryController(InputScanner scanner) {
+        this.scanner = scanner;
+    }
+
     /**
      * Devolve true se um item foi usado (o turno é gasto) e false se o jogador
      * desistiu ou escolheu algo inválido (o turno não é gasto).
      */
-    public static boolean useItemInCombat(Player player) {
+    public boolean useItemInCombat(Player player) {
         List<InventorySlot> slots = player.getInventorySlots();
-        InputScanner inputScanner = new InputScanner();
 
         if (slots.isEmpty()) {
             InventoryUI.noItemsToUseMessage();
@@ -33,7 +38,7 @@ public class InventoryController {
 
         InventoryUI.inventoryScreen(player);
         InventoryUI.askItemNumberMessage();
-        int number = inputScanner.getCodeInt();
+        int number = scanner.getCodeInt();
 
         if (number == 0) {
             return false;
