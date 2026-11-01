@@ -1,11 +1,14 @@
 package dete.org.view.terminal.presenters;
 
-import dete.org.core.input.InputScanner;
+import dete.org.core.entity.Classes;
+import dete.org.core.entity.Entity;
+import dete.org.core.input.PlayerInput;
 import dete.org.core.presenters.MenuPresenter;
 import dete.org.core.entity.entities.Enemy;
 import dete.org.core.entity.entities.Player;
 import dete.org.view.terminal.MenuIU;
 import dete.org.view.terminal.TerminalUI;
+
 
 /**
  * Implementação terminal do {@link MenuPresenter}.
@@ -14,6 +17,12 @@ import dete.org.view.terminal.TerminalUI;
  * em mensagens exibidas através da interface de terminal.</p>
  */
 public class TerminalMenuPresenter implements MenuPresenter {
+
+    private final PlayerInput input;
+    public TerminalMenuPresenter(PlayerInput input) {
+        this.input = input;
+    }
+
     @Override
     public void presenterStart(Player player, Enemy enemy) {
         MenuIU.startCombateMessage(player, enemy);
@@ -25,9 +34,9 @@ public class TerminalMenuPresenter implements MenuPresenter {
     }
 
     @Override
-    public void presenterRoundEnd(InputScanner scanner) {
+    public void presenterRoundEnd() {
         MenuIU.combateDividerMessage();
-        TerminalUI.pause(scanner);
+        TerminalUI.pause(input);
     }
 
     @Override
@@ -48,5 +57,35 @@ public class TerminalMenuPresenter implements MenuPresenter {
     @Override
     public void presenterEnemyTurnHeader() {
         MenuIU.enemyTurnHeaderMessage();
+    }
+
+    @Override
+    public void presenterShowProfile(Entity entity) {
+        MenuIU.profile(entity);
+    }
+
+    @Override
+    public void presenterShowClasses(Classes[] classes) {
+        MenuIU.showClasses(classes);
+    }
+
+    @Override
+    public void presenterBarDividerClasses() {
+        MenuIU.barDividerClasses();
+    }
+
+    @Override
+    public void presenterAskClassNumber() {
+        MenuIU.askClassNumber();
+    }
+
+    @Override
+    public void presenterOptionNumberInvalidClasses() {
+        MenuIU.optionNumberInvalidClass();
+    }
+
+    @Override
+    public void presenterShowClassSelected(Classes classes) {
+        MenuIU.classSelected(classes);
     }
 }

@@ -4,6 +4,7 @@ import dete.org.core.entity.entities.Player;
 import dete.org.core.inventory.Item;
 import dete.org.core.presenters.InventoryPresenter;
 import dete.org.view.terminal.InventoryUI;
+import dete.org.view.terminal.TerminalUI;
 
 /**
  * Implementação terminal do {@link InventoryPresenter}.
@@ -36,5 +37,10 @@ public class TerminalInventoryPresenter implements InventoryPresenter {
     @Override
     public void presenterNoItemsToUse() {
         InventoryUI.noItemsToUseMessage();
+    }
+
+    @Override
+    public void presenterNotCanDropItem() {
+        InventoryUI.noCanDropItemMessage();
     }
 }
