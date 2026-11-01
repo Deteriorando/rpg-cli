@@ -5,8 +5,8 @@ import dete.org.core.entity.Entity;
 import dete.org.core.entity.entities.Enemy;
 import dete.org.core.entity.entities.Player;
 
+import static dete.org.view.terminal.TerminalUI.println;
 import static dete.org.view.terminal.config.ConfigUI.TIMER_GENERAL;
-import static java.lang.IO.println;
 
 public class CombatUI {
 

@@ -7,9 +7,10 @@ import dete.org.core.inventory.ItemProperties;
 
 import java.util.List;
 
+import static dete.org.view.terminal.TerminalUI.print;
+import static dete.org.view.terminal.TerminalUI.println;
 import static dete.org.view.terminal.config.ConfigUI.TIMER_GENERAL;
-import static java.lang.IO.print;
-import static java.lang.IO.println;
+
 
 public class InventoryUI {
 
@@ -52,5 +53,9 @@ public class InventoryUI {
     public static void itemUsedMessage(Item item) {
         println("🧪 Você usou " + item.getName() + "!");
         TerminalUI.delay(TIMER_GENERAL);
+    }
+
+    public static void noCanDropItemMessage() {
+        println("Você não pode dropa o Item.");
     }
 }

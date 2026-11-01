@@ -1,11 +1,14 @@
 package dete.org.view.terminal;
 
+import dete.org.core.entity.Classes;
+import dete.org.core.entity.Entity;
 import dete.org.core.entity.entities.Enemy;
 import dete.org.core.entity.entities.Player;
+import dete.org.view.terminal.config.ConfigUI;
 
+import static dete.org.view.terminal.TerminalUI.print;
+import static dete.org.view.terminal.TerminalUI.println;
 import static dete.org.view.terminal.config.ConfigUI.TIMER_GENERAL;
-import static java.lang.IO.print;
-import static java.lang.IO.println;
 
 public class MenuIU {
 
@@ -24,8 +27,9 @@ public class MenuIU {
         println("4 - Sair");
     }
 
-    public static void profile(Player player) {
-        print(player);
+    public static void profile(Entity entity) {
+        print(entity.toString());
+        TerminalUI.delay(ConfigUI.TIMER_GENERAL);
     }
 
     public static void startCombateMessage(Player player, Enemy enemy) {
@@ -80,6 +84,31 @@ public class MenuIU {
     public static void defeatMessage(Enemy enemy) {
         println("💀 DERROTA! Você foi derrotado por " + enemy.getName() + "...");
         TerminalUI.delay(TIMER_GENERAL);
+    }
+
+    public static void showClasses(Classes[] classes) {
+        for (int i = 0; i < classes.length; i++) {
+            TerminalUI.delay(400);
+            println((i + 1) + " - " + classes[i].getName());
+        }
+    }
+
+    public static void barDividerClasses() {
+        println("---- Escolha sua Classe ----");
+    }
+
+    public static void askClassNumber() {
+        TerminalUI.delay(TIMER_GENERAL);
+        print("Opção: ");
+    }
+
+    public static void optionNumberInvalidClass(){
+        println("Opção fora do intervalo!");
+    }
+
+    public static void classSelected(Classes selectedClass) {
+        TerminalUI.clearConsole();
+        println("Classe escolhida: " + selectedClass.getName());
     }
 
 }
