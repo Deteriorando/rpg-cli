@@ -2,8 +2,6 @@ package dete.org.view.terminal;
 
 import dete.org.core.input.InputScanner;
 
-import java.util.Scanner;
-
 import static java.lang.IO.print;
 import static java.lang.IO.println;
 
