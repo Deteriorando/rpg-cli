@@ -18,11 +18,15 @@ public class Player extends Entity {
     private final Inventory inventory = new Inventory(INVENTORY_SLOTS);
 
     public Player(Classes type) {
-        this(Objects.requireNonNull(type, "O tipo da Classe não pode estar vazio!").getPlayerStats(), type);
+        this(type, null);
     }
 
-    private Player(ClassStats stats, Classes type) {
-        super(stats.life(), stats.damage(), type, stats.multiplier());
+    public Player(Classes type, String name) {
+        this(Objects.requireNonNull(type, "O tipo da Classe não pode estar vazio!").getPlayerStats(), type, name);
+    }
+
+    private Player(ClassStats stats, Classes type, String name) {
+        super(stats.life(), stats.damage(), type, stats.multiplier(), name);
     }
 
     @Override
@@ -88,10 +92,6 @@ public class Player extends Entity {
 
     public boolean hasItem(Item item, int quantity) {
         return inventory.contains(item, quantity);
-    }
-
-    public void listInventory() {
-        inventory.listInventory();
     }
 
     /** Visão somente leitura dos slots, para o menu numerar e escolher itens. */
