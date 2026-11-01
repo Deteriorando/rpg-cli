@@ -1,10 +1,11 @@
 package dete.org.view.terminal;
 
 import dete.org.core.controller.Effect;
+import dete.org.core.entity.Entity;
 import dete.org.core.entity.entities.Enemy;
 import dete.org.core.entity.entities.Player;
 
-import static dete.org.view.terminal.Config.ConfigUI.TIMER_GENERAL;
+import static dete.org.view.terminal.config.ConfigUI.TIMER_GENERAL;
 import static java.lang.IO.println;
 
 public class CombatUI {
@@ -16,17 +17,13 @@ public class CombatUI {
         TerminalUI.delay(1500);
     }
 
-    public static void playerDefenseMessage(Player player) {
-        println("🛡️ Você assumiu uma " + player.getEffect());
-        TerminalUI.delay(TIMER_GENERAL);
-    }
-
-    public static void enemyDefenseMessage(Enemy enemy) {
-        println("🛡️ O " + enemy.getName() + " assumiu uma " + enemy.getEffect());
+    public static void entityDefenseMessage(Entity entity) {
+        println("🛡️ - " + entity.getName() +   " assumiu uma " + entity.getEffect());
         TerminalUI.delay(TIMER_GENERAL);
     }
 
     public static void damageDealtMessage(String attackerName, double damage) {
+        TerminalUI.delay(100);
         println(attackerName + " causou " + (int) damage + " de dano!");
         TerminalUI.delay(TIMER_GENERAL);
     }
@@ -47,7 +44,7 @@ public class CombatUI {
     }
 
     public static void defenseAbsorbedMessage(Effect effect) {
-        println("🛡️ A " + effect.name() + " absorveu parte do impacto!");
+        println("A " + effect.name() + " absorveu parte do impacto!");
         TerminalUI.delay(TIMER_GENERAL);
     }
 
