@@ -3,11 +3,19 @@ package dete.org.core.controller;
 import dete.org.core.dto.AttackResult;
 import dete.org.core.entity.entities.Enemy;
 import dete.org.core.entity.entities.Player;
+import dete.org.core.input.InputScanner;
 import dete.org.core.input.UserAction;
 import dete.org.view.terminal.CombatUI;
 import dete.org.view.terminal.MenuIU;
 
 public class ActionPlayerController {
+
+    private final InventoryController inventoryController;
+
+    public ActionPlayerController(InputScanner scanner) {
+        inventoryController = new InventoryController(scanner);
+    }
+
     public boolean execute(UserAction action, Player  player, Enemy enemy) {
         switch (action) {
             case ATTACK -> {
@@ -22,7 +30,7 @@ public class ActionPlayerController {
                 return true;
             }
             case INVENTORY -> {
-                if(InventoryController.useItemInCombat(player)){
+                if(inventoryController.useItemInCombat(player)){
                     return true;
                 }
             }
