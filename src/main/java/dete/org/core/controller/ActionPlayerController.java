@@ -1,32 +1,36 @@
 package dete.org.core.controller;
 
+import dete.org.core.presenters.CombatPresenter;
 import dete.org.core.dto.AttackResult;
 import dete.org.core.entity.entities.Enemy;
 import dete.org.core.entity.entities.Player;
 import dete.org.core.input.InputScanner;
 import dete.org.core.input.UserAction;
-import dete.org.view.terminal.CombatUI;
-import dete.org.view.terminal.MenuIU;
+import dete.org.core.presenters.InventoryPresenter;
 
 public class ActionPlayerController {
 
     private final InventoryController inventoryController;
+    private final CombatPresenter actionPresenter;
 
-    public ActionPlayerController(InputScanner scanner) {
-        inventoryController = new InventoryController(scanner);
+    public ActionPlayerController(InputScanner scanner,
+                                  CombatPresenter actionPresenter,
+                                  InventoryPresenter inventoryPresenter
+                                  ) {
+        inventoryController = new InventoryController(scanner, inventoryPresenter);
+        this.actionPresenter = actionPresenter;
     }
 
     public boolean execute(UserAction action, Player  player, Enemy enemy) {
         switch (action) {
             case ATTACK -> {
                 AttackResult result = player.attack(enemy);
-                if (result.critical()) CombatUI.multiplierActivatedMessage("Player");
-                CombatUI.damageDealtMessage("Player", result.damage());
+                actionPresenter.presenterAttack(result, player);
                 return true;
             }
             case DEFENCE -> {
                 player.applyEffect(new Effect("Postura Defensiva", 0.85));
-                CombatUI.playerDefenseMessage(player);
+                actionPresenter.presenterDefense(player);
                 return true;
             }
             case INVENTORY -> {
@@ -35,7 +39,7 @@ public class ActionPlayerController {
                 }
             }
             default -> {
-                MenuIU.invalidChoiceMessage();
+                actionPresenter.presenterInvalidMessage();
                 return true;
             }
         }
