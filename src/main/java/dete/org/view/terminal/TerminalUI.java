@@ -7,6 +7,7 @@ public class TerminalUI {
         println("\nPróxima rodada...");
         println("- Pressione ENTER para continuar -");
         scan.next();
+        clearConsole();
     }
 
     public static void delay(long milliseconds) {

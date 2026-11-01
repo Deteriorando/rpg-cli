@@ -27,8 +27,6 @@ public class TerminalActionPresenter implements CombatPresenter {
             CombatUI.multiplierActivatedMessage(name);
         }
 
-        TerminalUI.clearConsole();
-
         CombatUI.damageDealtMessage(name, result.damage());
     }
 
