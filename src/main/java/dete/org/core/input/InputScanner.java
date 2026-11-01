@@ -9,11 +9,17 @@ public class InputScanner {
      * Retorna apenas um número.
      * */
     public int getCodeInt() {
-        int code = scanner.nextInt();
+        if (scanner.hasNextInt()) {
+            return scanner.nextInt();
+        }
 
-        // limpa o ‘buffer’
+        // descarta a entrada inválida
+        next();
+        return -1;
+    }
+
+    public void next() {
         scanner.nextLine();
-        return code;
     }
 
     public Scanner getScanner() {
