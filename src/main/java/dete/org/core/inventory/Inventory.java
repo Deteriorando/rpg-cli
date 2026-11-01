@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static java.lang.IO.print;
 
 public class Inventory {
 
@@ -72,11 +71,6 @@ public class Inventory {
 
         if (countOf(item) < quantity) {
             throw new IllegalStateException("Not enough items to remove.");
-        }
-
-        if (item.hasProperty(ItemProperties.NON_DROPPABLE)) {
-            print("Você não pode remover este item.");
-            return;
         }
 
         int remaining = quantity;
