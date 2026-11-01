@@ -9,8 +9,8 @@ package dete.org.core.entity;
 public enum Classes {
 
     HUMAN      (1, "Human",   new ClassStats(1500, 33.4, 5),   new ClassStats(1500, 33.4, 5)),
-    WIZARD     (2, "Wizard",  new ClassStats(2200, 35, 2),     new ClassStats(2200, 40, 2.5)),
-    WITCH      (3, "Witch",   new ClassStats(2200, 35, 4),     new ClassStats(2200, 40, 4)),
+    WIZARD     (2, "Wizard",  new ClassStats(2200, 40, 3),     new ClassStats(2200, 40, 3)),
+    WITCH      (3, "Witch",   new ClassStats(2200, 40, 4),     new ClassStats(2200, 40, 4)),
     WARRIOR    (4, "Warrior", new ClassStats(1820, 45, 3),     new ClassStats(1820, 55, 3)),
     BERSEKER   (5, "Berserk", new ClassStats(1720, 27, 6),     new ClassStats(1720, 36.7, 6));
 
