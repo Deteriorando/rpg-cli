@@ -111,6 +111,8 @@ src/main/java/dete/org
 
 Uma interface gráfica poderia entrar implementando as mesmas interfaces
 (os três presenters e o `PlayerInput`), sem mudar as regras do `core`.
+E isso é feito para o core ficar independente de qualquer interface gráfica
+que deseje implementar a qualquer momento.
 
 ### Documentação
 
