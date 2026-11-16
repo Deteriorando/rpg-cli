@@ -2,11 +2,12 @@ package dete.org.core.inventory;
 
 import dete.org.core.entity.Entity;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.EnumSet;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Properties are using a Set collection so they are not duplicated
@@ -20,7 +21,7 @@ public abstract class Item {
     private final int maxStackSize;
 
     public Item(String id, String name, String description, ItemType type, int maxStackSize, ItemProperties... property) {
-        this.id = id.toUpperCase();
+        this.id = id.toUpperCase(Locale.ROOT);
         this.name = name;
         this.description = description;
         this.type = type;
