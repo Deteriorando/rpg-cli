@@ -126,11 +126,11 @@ que deseje implementar a qualquer momento.
 Requisitos: **JDK 25** e [Maven](https://maven.apache.org/).
 Recomendação de IDE: [IntelliJ IDEA](https://www.jetbrains.com/idea/download).
 
-Rode o [build.sh](build.sh) para fazer o build do jogo e depois execute o `.jar`
+Rode o [build.sh](scripts/bash/build.sh) para fazer o build do jogo e depois execute o `.jar`
 gerado:
 
 ```bash
-bash build.sh
+bash scripts/bash/build.sh
 java -jar target/RPG-CLI-0.4.jar
 ```
 
