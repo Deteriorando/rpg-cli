@@ -39,8 +39,8 @@ public class TerminalActionPresenter implements CombatPresenter {
     }
 
     @Override
-    public void presenterEnemyRegeneration(Enemy enemy) {
-        CombatUI.enemyRegenMessage(enemy);
+    public void presenterEnemyRegeneration(Enemy enemy, double healed, boolean critical) {
+        CombatUI.enemyRegenMessage(enemy, healed, critical);
     }
 
     @Override

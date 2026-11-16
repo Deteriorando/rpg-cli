@@ -13,6 +13,9 @@ import dete.org.core.input.EnemyInput;
  */
 public class ActionEnemyController {
 
+    /** Valor base da regeneração do inimigo, antes do multiplicador. */
+    private static final double REGEN_AMOUNT = 80;
+
     private final CombatPresenter actionPresenter;
 
     public ActionEnemyController(CombatPresenter combatPresenter) {
@@ -31,9 +34,9 @@ public class ActionEnemyController {
             }
             case REGENERATION -> {
                 if (enemy.canRegenerate()) {
-                    enemy.regeneration(80);
+                    double healed = enemy.regeneration(REGEN_AMOUNT);
                     enemy.triggerRegenCooldown();
-                    actionPresenter.presenterEnemyRegeneration(enemy);
+                    actionPresenter.presenterEnemyRegeneration(enemy, healed, healed > REGEN_AMOUNT);
                 } else {
                     // Se estiver em cooldown, a IA ataca como fallback
                     AttackResult result = enemy.attack(player);

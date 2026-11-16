@@ -48,8 +48,12 @@ public class CombatUI {
         TerminalUI.delay(TIMER_GENERAL);
     }
 
-    public static void enemyRegenMessage(Enemy enemy) {
+    public static void enemyRegenMessage(Enemy enemy, double healed, boolean critical) {
+        if (critical) {
+            multiplierActivatedMessage(enemy.getName());
+        }
+
         println("✨ O " + enemy.getName() + " regenerou vida!");
-        TerminalUI.delay(TIMER_GENERAL);
+        regenValueMessage(healed);
     }
 }

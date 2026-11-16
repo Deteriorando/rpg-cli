@@ -15,7 +15,12 @@ public interface CombatPresenter {
 
     void presenterDefense(Entity entity);
 
-    void presenterEnemyRegeneration(Enemy enemy);
+    /**
+     * @param enemy    o inimigo que regenerou
+     * @param healed   quanto de vida foi efetivamente calculado na regeneração
+     * @param critical se a regeneração teve o multiplicador aplicado
+     */
+    void presenterEnemyRegeneration(Enemy enemy, double healed, boolean critical);
 
     void presenterInvalidMessage();
 }
