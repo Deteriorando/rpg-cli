@@ -7,7 +7,7 @@ Requisitos: **JDK 25** (ou mais novo) e o [Maven](https://maven.apache.org/).
 
 ### Buildar o jogo
 
-O projeto tem o script `build.sh`, que roda o comando:
+O projeto tem o script `scripts/bash/build.sh`, que roda o comando:
 
 ```bash
 mvn clean package
@@ -19,12 +19,12 @@ mvn clean package
 Para rodar o script:
 
 ```bash
-bash build.sh
+bash scripts/bash/build.sh
 ```
 
-O arquivo `build.sh` não tem permissão de execução. Se preferir usar
-`./build.sh`, rode antes `chmod +x build.sh`. Também dá para rodar o comando
-`mvn clean package` direto.
+O arquivo `scripts/bash/build.sh` não tem permissão de execução. Se preferir usar
+`./scripts/bash/build.sh`, rode antes `chmod +x scripts/bash/build.sh`. Também dá
+para rodar o comando `mvn clean package` direto.
 
 No fim do build, o arquivo gerado é o `target/RPG-CLI-0.4.jar`. O nome vem do
 `artifactId` e da `version` do `pom.xml` (`RPG-CLI` e `0.4`), então ele muda
