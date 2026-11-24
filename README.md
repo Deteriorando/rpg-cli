@@ -154,3 +154,4 @@ Mais detalhes no [Guia de comandos](Document/COMMANDS.md).
 **Ideias para os próximos passos:**
 - Melhorias do visual na interface gráfica.
 - Expansão do sistema de combate.
+- Melhorias de inicialização do jogo.
