@@ -152,4 +152,5 @@ Mais detalhes no [Guia de comandos](Document/COMMANDS.md).
   adaptado para uma interface gráfica.
 
 **Ideias para os próximos passos:**
-- Interface gráfica.
+- Melhorias do visual na interface gráfica.
+- Implementação de novos ataques de combate.
