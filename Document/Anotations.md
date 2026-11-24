@@ -17,4 +17,11 @@ Com base na experiência de teste de um jogador, O jogo
 está tudo certo, porém o dano é alto, defesa é quase 
 inutil e precisa ser melhorado.
 
-Sugestão: Fazer a defesa retornar dano para inimigo.
+### Ideias
+Sugestões:
+- Fazer a defesa retornar dano para inimigo.
+- Adicionar tipos de ataques.
+
+O que vai mudar no jogo?
+- Implementação de ataques.
+- Melhorias visuais significativas pelo terminal.
