@@ -25,3 +25,11 @@ Sugestões:
 O que vai mudar no jogo?
 - Implementação de ataques.
 - Melhorias visuais significativas pelo terminal.
+
+Mas pq?
+
+Decidi mudar de plano pq uma interface gráfica vai exigir muito tempo
+e pq não tenho certeza se quero implementar uma interface gráfica
+ou não, isso ainda poderá ser muito díficil e leva muito tempo,
+além de que o escopo ficaria ainda muito maior, então para a versão
+0.5 estárei focando em melhorias para o terminal especificamente.
