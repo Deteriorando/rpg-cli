@@ -116,6 +116,7 @@ que deseje implementar a qualquer momento.
 
 ### Documentação
 
+- [Arquitetura do projeto](Document/Arquitecture.md): camadas, dependências e a separação entre `core` e `view`
 - [Sistema de entidade](Document/EntitySystem.md): atributos, classes e como as entidades são criadas
 - [Sistema de inventário](Document/Inventory.md): slots, empilhamento e regras
 - [Sistema de itens](Document/Items.md): itens e propriedades
