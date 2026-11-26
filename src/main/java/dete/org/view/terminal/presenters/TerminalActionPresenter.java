@@ -39,15 +39,13 @@ public class TerminalActionPresenter implements CombatPresenter {
 
     @Override
     public void presenterDefense(Entity entity) {
-        CombatTuiController tui = CombatTuiController.getActive();
-        if (tui != null) {
-            if (entity.hasEffect()) {
-                tui.onDefense(entity);
-            }
+        if (!entity.hasEffect()) {
             return;
         }
-
-        if (entity.hasEffect()) {
+        CombatTuiController tui = CombatTuiController.getActive();
+        if (tui != null) {
+            tui.onDefense(entity);
+        } else {
             CombatUI.entityDefenseMessage(entity);
             CombatUI.defenseAbsorbedMessage(entity.getEffect());
         }

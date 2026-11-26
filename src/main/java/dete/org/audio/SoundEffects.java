@@ -1,22 +1,15 @@
 package dete.org.audio;
 
 import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.EnumSet;
 import java.util.Map;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
 
 public final class SoundEffects implements AutoCloseable {
     public enum Cue {
@@ -129,45 +122,9 @@ public final class SoundEffects implements AutoCloseable {
         }
 
         private static AudioData readWav(String resource) throws IOException, UnsupportedAudioFileException {
-            try (InputStream raw = SoundEffects.class.getResourceAsStream(resource)) {
-                if (raw == null) {
-                    throw new IOException("Recurso de áudio ausente: " + resource);
-                }
-                try (AudioInputStream stream = AudioSystem.getAudioInputStream(new BufferedInputStream(raw))) {
-                    AudioFormat sourceFormat = stream.getFormat();
-                    if (isPcm16LittleEndian(sourceFormat)) {
-                        return new AudioData(sourceFormat, readAllBytes(stream));
-                    }
-                    AudioFormat targetFormat = new AudioFormat(
-                            AudioFormat.Encoding.PCM_SIGNED,
-                            sourceFormat.getSampleRate(),
-                            16,
-                            sourceFormat.getChannels(),
-                            sourceFormat.getChannels() * 2,
-                            sourceFormat.getSampleRate(),
-                            false
-                    );
-                    try (AudioInputStream converted = AudioSystem.getAudioInputStream(targetFormat, stream)) {
-                        return new AudioData(targetFormat, readAllBytes(converted));
-                    }
-                }
+            try (var stream = PcmAudio.open(resource)) {
+                return new AudioData(stream.getFormat(), stream.readAllBytes());
             }
-        }
-
-        private static boolean isPcm16LittleEndian(AudioFormat format) {
-            return AudioFormat.Encoding.PCM_SIGNED.equals(format.getEncoding())
-                    && format.getSampleSizeInBits() == 16
-                    && !format.isBigEndian();
-        }
-
-        private static byte[] readAllBytes(AudioInputStream stream) throws IOException {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            byte[] buffer = new byte[8192];
-            int read;
-            while ((read = stream.read(buffer)) != -1) {
-                out.write(buffer, 0, read);
-            }
-            return out.toByteArray();
         }
 
         private static AudioData get(Cue cue) {
@@ -176,9 +133,7 @@ public final class SoundEffects implements AutoCloseable {
     }
 
     private static final class Engine {
-        private final ReentrantLock queueLock = new ReentrantLock();
-        private final Condition hasWork = queueLock.newCondition();
-        private final EnumSet<Cue> pendingSet = EnumSet.noneOf(Cue.class);
+        private final Object queueLock = new Object();
         private final ArrayDeque<Cue> pendingQueue = new ArrayDeque<>(Cue.values().length);
         private final ArrayDeque<Cue> preloadQueue = new ArrayDeque<>(Arrays.asList(Cue.values()));
 
@@ -205,17 +160,14 @@ public final class SoundEffects implements AutoCloseable {
             if (closed || audioUnavailable) {
                 return;
             }
-            queueLock.lock();
-            try {
+            synchronized (queueLock) {
                 if (closed) {
                     return;
                 }
-                if (pendingSet.add(cue)) {
+                if (!pendingQueue.contains(cue)) {
                     pendingQueue.addLast(cue);
-                    hasWork.signal();
+                    queueLock.notify();
                 }
-            } finally {
-                queueLock.unlock();
             }
         }
 
@@ -225,22 +177,18 @@ public final class SoundEffects implements AutoCloseable {
                     Cue playNext = null;
                     Cue preloadNext = null;
 
-                    queueLock.lock();
-                    try {
+                    synchronized (queueLock) {
                         while (!closed && !audioUnavailable && pendingQueue.isEmpty() && preloadQueue.isEmpty()) {
-                            hasWork.await();
+                            queueLock.wait();
                         }
                         if (closed || audioUnavailable) {
                             break;
                         }
                         if (!pendingQueue.isEmpty()) {
                             playNext = pendingQueue.pollFirst();
-                            pendingSet.remove(playNext);
                         } else {
                             preloadNext = preloadQueue.pollFirst();
                         }
-                    } finally {
-                        queueLock.unlock();
                     }
 
                     if (playNext != null) {
@@ -321,14 +269,10 @@ public final class SoundEffects implements AutoCloseable {
 
         private void close() {
             closed = true;
-            queueLock.lock();
-            try {
+            synchronized (queueLock) {
                 pendingQueue.clear();
-                pendingSet.clear();
                 preloadQueue.clear();
-                hasWork.signalAll();
-            } finally {
-                queueLock.unlock();
+                queueLock.notifyAll();
             }
             worker.interrupt();
             closeAllClips();

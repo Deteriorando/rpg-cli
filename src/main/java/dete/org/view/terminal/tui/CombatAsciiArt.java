@@ -133,14 +133,11 @@ public final class CombatAsciiArt {
             line.appendSpaces(areaWidth, bg);
             return;
         }
-        int rowWidth = plainRow(rowIndex).length();
+        String plain = plainRow(rowIndex);
+        int rowWidth = plain.length();
         if (areaWidth < rowWidth) {
-            // Se o painel for ligeiramente menor que 33 cols, recorta com segurança
-            String plain = plainRow(rowIndex);
-            int start = Math.max(0, (plain.length() - areaWidth) / 2);
-            String slice = plain.substring(start, Math.min(plain.length(), start + areaWidth));
-            line.append(slice, rowFallbackColor(rowIndex), bg);
-            line.appendSpaces(areaWidth - slice.length(), bg);
+            int start = (rowWidth - areaWidth) / 2;
+            line.append(plain.substring(start, start + areaWidth), rowFallbackColor(rowIndex), bg);
             return;
         }
 

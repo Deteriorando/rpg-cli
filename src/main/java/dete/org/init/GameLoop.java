@@ -19,12 +19,6 @@ import dete.org.view.terminal.presenters.TerminalActionPresenter;
 import dete.org.view.terminal.presenters.TerminalInventoryPresenter;
 import dete.org.view.terminal.presenters.TerminalMenuPresenter;
 
-/**
- * <p>
- *     Está é a classe que vai rodar o jogo infinitamente.
- * </p>
- * */
-
 public class GameLoop {
 
     public static void run() {
@@ -41,35 +35,32 @@ public class GameLoop {
         try (SoundEffects soundEffects = SoundEffects.open()) {
             while (!input.isEndOfInput()) {
                 MenuIU.menu();
-                int chose = input.getCodeInt();
+                int choice = input.getCodeInt();
                 if (input.isEndOfInput()) {
                     return;
                 }
 
                 // Opção 4 encerra o jogo e fecha o áudio em seguida; não dispara
                 // confirmação para não cortar o som no fechamento.
-                if (chose >= 1 && chose <= 3) {
+                if (choice >= 1 && choice <= 3) {
                     SoundEffects.play(SoundEffects.Cue.CONFIRM);
                 }
 
-                switch (chose) {
-                    case 1 -> {
-                        Enemy enemy = ConfigureEnemy.createRandomEnemy();
-                        try (var music = MusicEngine.loop("/audio/ordinary-battle-loop.wav")) {
-                            SoundEffects.play(SoundEffects.Cue.BATTLE_START);
-                            new Controller(
-                                    input,
-                                    presenter,
-                                    menuPresenter,
-                                    inventoryPresenter
-                            ).start(player, enemy);
-                        }
-                    }
+                switch (choice) {
+                    case 1 -> startCombat(player, input, presenter, menuPresenter, inventoryPresenter);
                     case 2 -> MenuIU.profile(player);
                     case 3 -> new ConfigurePlayer(input, menuPresenter).configure(player);
                     case 4 -> { return; }
                 }
             }
+        }
+    }
+    private static void startCombat(Player player, PlayerInput input, CombatPresenter presenter,
+                                    MenuPresenter menuPresenter, InventoryPresenter inventoryPresenter) {
+        Enemy enemy = ConfigureEnemy.createRandomEnemy();
+        try (var music = MusicEngine.loop("/audio/ordinary-battle-loop.wav")) {
+            SoundEffects.play(SoundEffects.Cue.BATTLE_START);
+            new Controller(input, presenter, menuPresenter, inventoryPresenter).start(player, enemy);
         }
     }
 }

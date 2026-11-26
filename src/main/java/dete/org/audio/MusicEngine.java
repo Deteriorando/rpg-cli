@@ -1,14 +1,10 @@
 package dete.org.audio;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 public final class MusicEngine implements AutoCloseable {
     private static final System.Logger LOGGER = System.getLogger(MusicEngine.class.getName());
@@ -27,35 +23,15 @@ public final class MusicEngine implements AutoCloseable {
 
     private void play(String resource) {
         Clip clip = null;
-        try (InputStream file = MusicEngine.class.getResourceAsStream(resource)) {
-            if (file == null) {
-                throw new IOException("Recurso de áudio ausente: " + resource);
-            }
+        try {
             synchronized (this) {
                 if (closed) {
                     return;
                 }
             }
-
-            try (AudioInputStream audioStream = AudioSystem.getAudioInputStream(new BufferedInputStream(file))) {
-                AudioFormat inputFormat = audioStream.getFormat();
+            try (var stream = PcmAudio.open(resource)) {
                 clip = AudioSystem.getClip();
-                if (isPcm16LittleEndian(inputFormat)) {
-                    clip.open(audioStream);
-                } else {
-                    AudioFormat pcmFormat = new AudioFormat(
-                            AudioFormat.Encoding.PCM_SIGNED,
-                            inputFormat.getSampleRate(),
-                            16,
-                            inputFormat.getChannels(),
-                            inputFormat.getChannels() * 2,
-                            inputFormat.getSampleRate(),
-                            false
-                    );
-                    try (AudioInputStream pcm = AudioSystem.getAudioInputStream(pcmFormat, audioStream)) {
-                        clip.open(pcm);
-                    }
-                }
+                clip.open(stream);
             }
 
             synchronized (this) {
@@ -73,12 +49,6 @@ public final class MusicEngine implements AutoCloseable {
                 clip.close();
             }
         }
-    }
-
-    private static boolean isPcm16LittleEndian(AudioFormat format) {
-        return AudioFormat.Encoding.PCM_SIGNED.equals(format.getEncoding())
-                && format.getSampleSizeInBits() == 16
-                && !format.isBigEndian();
     }
 
     @Override

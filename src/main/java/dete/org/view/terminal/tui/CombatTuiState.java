@@ -4,7 +4,6 @@ import dete.org.core.entity.entities.Enemy;
 import dete.org.core.entity.entities.Player;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -84,7 +83,7 @@ public final class CombatTuiState {
     }
 
     public synchronized void moveAction(int delta) {
-        this.selectedAction = Math.floorMod(this.selectedAction + delta, 3);
+        setSelectedAction(selectedAction + delta);
     }
 
     public synchronized int getSelectedItem() {
@@ -142,6 +141,6 @@ public final class CombatTuiState {
     }
 
     public synchronized List<HistoryEntry> getHistorySnapshot() {
-        return Collections.unmodifiableList(new ArrayList<>(history));
+        return List.copyOf(history);
     }
 }

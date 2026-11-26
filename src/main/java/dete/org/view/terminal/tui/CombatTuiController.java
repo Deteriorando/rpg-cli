@@ -61,15 +61,16 @@ public final class CombatTuiController {
     }
 
     public void render() {
-        Size size = terminal.getCurrentSize();
-        String frame = CombatTuiRenderer.render(state, size.cols(), size.rows(), terminal.isInteractiveTty());
-        terminal.paintFrame(frame);
+        terminal.paintFrame(buildFrame());
     }
 
     private void clearAndRender() {
+        terminal.clearAndPaintFrame(buildFrame());
+    }
+
+    private String buildFrame() {
         Size size = terminal.getCurrentSize();
-        String frame = CombatTuiRenderer.render(state, size.cols(), size.rows(), terminal.isInteractiveTty());
-        terminal.clearAndPaintFrame(frame);
+        return CombatTuiRenderer.render(state, size.cols(), size.rows(), terminal.isInteractiveTty());
     }
 
     public void onRoundStart(int round) {
@@ -181,134 +182,82 @@ public final class CombatTuiController {
         if (!terminal.isInteractiveTty()) {
             return nonTtyIntReader.get();
         }
-        if (state.getMode() == Mode.INVENTORY_SELECT) {
-            return readInventoryKey();
-        }
-        return readActionKey();
+        return readInteractiveChoice(state.getMode() == Mode.INVENTORY_SELECT);
     }
 
-    private int readActionKey() {
+    private int readInteractiveChoice(boolean inventory) {
+        int slotCount = inventory ? state.getPlayer().getInventorySlots().size() : 0;
+        int firstChoice = inventory ? 0 : 1;
+        int lastChoice = inventory ? slotCount : 3;
+
         while (true) {
-            KeyEvent ev = terminal.readKeyWatchingResize(this::clearAndRender);
-            switch (ev.type()) {
-                case LEFT, UP -> {
-                    moveActionSelection(-1);
-                    state.clearStatusNotice();
-                    render();
-                }
-                case RIGHT, DOWN, TAB -> {
-                    moveActionSelection(1);
-                    state.clearStatusNotice();
-                    render();
-                }
+            KeyEvent key = terminal.readKeyWatchingResize(this::clearAndRender);
+            switch (key.type()) {
+                case LEFT, UP -> moveSelection(-1, inventory, slotCount);
+                case RIGHT, DOWN, TAB -> moveSelection(1, inventory, slotCount);
                 case DIGIT -> {
-                    if (ev.digit() >= 1 && ev.digit() <= 3) {
-                        state.setSelectedAction(ev.digit() - 1);
+                    int choice = key.digit();
+                    if (choice >= firstChoice && choice <= lastChoice) {
                         state.clearStatusNotice();
-                        render();
-                        return ev.digit();
+                        if (!inventory) {
+                            state.setSelectedAction(choice - 1);
+                            render();
+                        }
+                        return choice;
                     }
                 }
                 case ENTER -> {
                     state.clearStatusNotice();
-                    return state.getSelectedAction() + 1;
-                }
-                case CHAR -> {
-                    char lower = Character.toLowerCase(ev.ch());
-                    if (lower == 'a' || lower == 'h') {
-                        moveActionSelection(-1);
-                        state.clearStatusNotice();
-                        render();
-                    } else if (lower == 'd' || lower == 'l') {
-                        moveActionSelection(1);
-                        state.clearStatusNotice();
-                        render();
+                    if (!inventory) {
+                        return state.getSelectedAction() + 1;
                     }
-                }
-                case EOF -> {
-                    eofReached = true;
-                    return -1;
-                }
-                default -> {}
-            }
-        }
-    }
-
-    private int readInventoryKey() {
-        int slotCount = state.getPlayer().getInventorySlots().size();
-        while (true) {
-            KeyEvent ev = terminal.readKeyWatchingResize(this::clearAndRender);
-            switch (ev.type()) {
-                case LEFT, UP -> {
-                    moveItemSelection(-1, slotCount);
-                    state.clearStatusNotice();
-                    render();
-                }
-                case RIGHT, DOWN, TAB -> {
-                    moveItemSelection(1, slotCount);
-                    state.clearStatusNotice();
-                    render();
-                }
-                case DIGIT -> {
-                    int d = ev.digit();
-                    if (d == 0) {
-                        state.clearStatusNotice();
-                        return 0;
-                    }
-                    if (d >= 1 && d <= slotCount) {
-                        state.clearStatusNotice();
-                        return d;
-                    }
+                    int selected = state.getSelectedItem();
+                    return selected < slotCount ? selected + 1 : 0;
                 }
                 case ESCAPE, BACKSPACE -> {
-                    state.clearStatusNotice();
-                    return 0;
-                }
-                case ENTER -> {
-                    state.clearStatusNotice();
-                    int sel = state.getSelectedItem();
-                    return sel >= slotCount ? 0 : (sel + 1);
-                }
-                case CHAR -> {
-                    char lower = Character.toLowerCase(ev.ch());
-                    if (lower == 'a' || lower == 'h') {
-                        moveItemSelection(-1, slotCount);
-                        state.clearStatusNotice();
-                        render();
-                    } else if (lower == 'd' || lower == 'l') {
-                        moveItemSelection(1, slotCount);
-                        state.clearStatusNotice();
-                        render();
-                    } else if (lower == 'q') {
+                    if (inventory) {
                         state.clearStatusNotice();
                         return 0;
                     }
                 }
+                case CHAR -> {
+                    switch (Character.toLowerCase(key.ch())) {
+                        case 'a', 'h' -> moveSelection(-1, inventory, slotCount);
+                        case 'd', 'l' -> moveSelection(1, inventory, slotCount);
+                        case 'q' -> {
+                            if (inventory) {
+                                state.clearStatusNotice();
+                                return 0;
+                            }
+                        }
+                        default -> {}
+                    }
+                }
                 case EOF -> {
                     eofReached = true;
-                    return 0;
+                    return inventory ? 0 : -1;
                 }
-                default -> {}
             }
         }
     }
 
-    /** Move a seleção de ação e só toca quando o índice realmente muda. */
-    private void moveActionSelection(int delta) {
-        int previous = state.getSelectedAction();
-        state.moveAction(delta);
-        if (state.getSelectedAction() != previous) {
-            SoundEffects.play(SoundEffects.Cue.MOVE_SELECTION);
+    private void moveSelection(int delta, boolean inventory, int slotCount) {
+        if (inventory) {
+            int previous = state.getSelectedItem();
+            state.moveItem(delta, slotCount);
+            refreshSelection(previous != state.getSelectedItem());
+        } else {
+            state.moveAction(delta);
+            refreshSelection(true);
         }
     }
 
-    /** Move a seleção do inventário e só toca quando o índice realmente muda. */
-    private void moveItemSelection(int delta, int slotCount) {
-        int previous = state.getSelectedItem();
-        state.moveItem(delta, slotCount);
-        if (state.getSelectedItem() != previous) {
+    private void refreshSelection(boolean changed) {
+        if (changed) {
             SoundEffects.play(SoundEffects.Cue.MOVE_SELECTION);
         }
+        state.clearStatusNotice();
+        render();
     }
 
     private void waitToExitCombat() {
