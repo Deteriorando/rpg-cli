@@ -28,6 +28,10 @@ public class Life {
         return value;
     }
 
+    public double getMaxValue() {
+        return maxValue;
+    }
+
     public void setValue(double value) {
         if (value < 0) {
             this.value = 0;

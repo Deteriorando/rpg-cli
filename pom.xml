@@ -23,7 +23,6 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <addClasspath>true</addClasspath>
                             <mainClass>dete.org.Main</mainClass>
                         </manifest>
                     </archive>

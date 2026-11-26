@@ -34,9 +34,11 @@ public class ActionEnemyController {
             }
             case REGENERATION -> {
                 if (enemy.canRegenerate()) {
-                    double healed = enemy.regeneration(REGEN_AMOUNT);
+                    double previousLife = enemy.getLife().getValue();
+                    double rolledHeal = enemy.regeneration(REGEN_AMOUNT);
                     enemy.triggerRegenCooldown();
-                    actionPresenter.presenterEnemyRegeneration(enemy, healed, healed > REGEN_AMOUNT);
+                    double restoredLife = enemy.getLife().getValue() - previousLife;
+                    actionPresenter.presenterEnemyRegeneration(enemy, restoredLife, rolledHeal > REGEN_AMOUNT);
                 } else {
                     // Se estiver em cooldown, a IA ataca como fallback
                     AttackResult result = enemy.attack(player);

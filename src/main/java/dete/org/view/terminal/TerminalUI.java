@@ -11,6 +11,9 @@ public class TerminalUI {
     }
 
     public static void delay(long milliseconds) {
+        if (System.console() == null) {
+            return;
+        }
         try {
             Thread.sleep(milliseconds);
         } catch (InterruptedException e) {

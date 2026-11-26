@@ -19,6 +19,7 @@ public interface MenuPresenter {
     void presenterWin(Enemy enemy, int rounds);
     void presenterDefeat(Enemy enemy);
     void presenterHelpAction(Player player);
+    default void presenterActionConfirmed() {}
     void presenterEnemyTurnHeader();
     void presenterShowProfile(Entity entity);
     void presenterShowClasses(Classes[] classes);
@@ -26,5 +27,8 @@ public interface MenuPresenter {
     void presenterAskClassNumber();
     void presenterOptionNumberInvalidClasses();
     void presenterShowClassSelected(Classes classes);
+
+    /** Notifica a camada de apresentação que o combate foi encerrado (limpeza/restauração). */
+    default void presenterCombatEnd() {}
 
 }

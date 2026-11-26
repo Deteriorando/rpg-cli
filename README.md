@@ -22,26 +22,26 @@ Feito com Java 25 e Maven.
 
 ### Como jogar
 
-Em todas as telas, digite o número da opção e aperte ENTER.
-
-No menu principal:
+No menu principal, digite o número da opção e aperte Enter:
 
 1. **Start:** começa um combate contra um inimigo sorteado.
 2. **Perfil:** mostra os atributos do seu personagem.
 3. **Escolha uma Classe:** mostra a lista de classes numerada para você trocar de classe.
 4. **Sair:** fecha o jogo.
 
-Durante o combate, a cada rodada você escolhe uma ação:
+Na tela de combate, use as setas para escolher uma ação e Enter para confirmar.
+As teclas `1`, `2` e `3` executam a ação diretamente. Em terminais sem modo
+interativo, digite a opção e aperte Enter.
 
 1. **Atacar:** causa dano ao inimigo. Existe uma chance de acerto crítico,
    em que o dano é multiplicado.
 2. **Defender:** reduz em 15% o dano do próximo ataque que você receber.
 3. **Usar item:** abre a sua mochila para usar um item (veja o inventário abaixo).
 
-Depois da sua ação, o inimigo age, e o jogo pede ENTER para seguir para a
-próxima rodada. Se você digitar uma opção inválida (um número que não existe ou
-um texto), perde a vez. A luta termina quando a vida de um dos dois chega a
-zero, e no fim os atributos do seu personagem voltam aos da classe.
+Depois da sua ação, o inimigo age e o jogo mostra a próxima rodada. Na entrada
+por linha, uma opção inválida gasta a vez. A luta termina quando a vida de um
+dos dois chega a zero. Ao voltar ao menu, os atributos do personagem voltam
+aos da classe. A música toca em loop enquanto a tela de combate está aberta.
 
 ### Sistemas principais
 
