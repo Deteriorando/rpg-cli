@@ -13,6 +13,7 @@ public interface InventoryPresenter {
     void presenterAskItemNumber();
     void presenterInventoryScreen(Player player);
     void presenterInvalidItem();
+    default void presenterItemSelectionCanceled() {}
     void presenterItemUsed(Item item);
     void presenterNoItemsToUse();
     void presenterNotCanDropItem();

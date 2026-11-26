@@ -29,7 +29,6 @@ public class Controller {
                       MenuPresenter menuPresenter,
                       InventoryPresenter inventoryPresenter
                       ) {
-        this.rounds = 1;
         this.input = input;
         actionPlayerController = new ActionPlayerController(
                 input,
@@ -41,33 +40,47 @@ public class Controller {
     }
 
     public void start(Player player, Enemy enemy) {
-        menuPresenter.presenterStart(player, enemy);
+        rounds = 1;
+        try {
+            menuPresenter.presenterStart(player, enemy);
+            while (player.isAlive() && enemy.isAlive() && !input.isEndOfInput()) {
+                menuPresenter.presenterRoundHeader(rounds, player, enemy);
 
-        while (player.isAlive() && enemy.isAlive()) {
-            menuPresenter.presenterRoundHeader(rounds, player, enemy);
+                executePlayerAction(player, enemy);
+                if (input.isEndOfInput()) {
+                    break;
+                }
 
-            executePlayerAction(player, enemy);
+                if (!enemy.isAlive()) {
+                    break;
+                }
 
-            if (!enemy.isAlive()) {
-                break;
+                executeEnemyAction(enemy, player);
+
+                // Atualiza os cooldowns no fim do turno completo
+                if (!enemy.canRegenerate()) enemy.updateCooldowns();
+
+                if (!player.isAlive()) {
+                    break;
+                }
+                rounds++;
+                menuPresenter.presenterRoundEnd();
             }
 
-            executeEnemyAction(enemy, player);
-
-            // Atualiza os cooldowns no fim do turno completo
-            if (!enemy.canRegenerate()) enemy.updateCooldowns();
-
-            rounds++;
-            menuPresenter.presenterRoundEnd();
+            if (!input.isEndOfInput()) {
+                if (player.isAlive()) {
+                    menuPresenter.presenterWin(enemy, rounds);
+                } else {
+                    menuPresenter.presenterDefeat(enemy);
+                }
+            }
+        } finally {
+            try {
+                menuPresenter.presenterCombatEnd();
+            } finally {
+                player.resetToClassStats();
+            }
         }
-
-        if (player.isAlive()) {
-            menuPresenter.presenterWin(enemy, rounds);
-        } else {
-            menuPresenter.presenterDefeat(enemy);
-        }
-
-        player.resetToClassStats();
     }
 
     private void executePlayerAction(Player player, Enemy enemy) {
@@ -77,11 +90,18 @@ public class Controller {
             menuPresenter.presenterHelpAction(player);
 
             int choice = input.getCodeInt();
+            if (input.isEndOfInput()) {
+                return;
+            }
             UserAction action = UserAction.getByCode(choice);
+
+            if (action != UserAction.INVALID) {
+                menuPresenter.presenterActionConfirmed();
+            }
 
             validAction = actionPlayerController.execute(action, player, enemy);
 
-        } while (!validAction);
+        } while (!validAction && !input.isEndOfInput());
     }
 
     private void executeEnemyAction(Enemy enemy, Player player) {

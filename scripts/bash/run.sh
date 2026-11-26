@@ -6,12 +6,12 @@
 
 PROJECT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 
-# Compila os fontes em target/classes e roda a classe principal (dete.org.Main)
-RUN_CMD="cd \"$PROJECT_DIR\" && javac -d target/classes -sourcepath src/main/java src/main/java/dete/org/Main.java && java -cp target/classes dete.org.Main"
+# Empacota o jogo com os recursos e as dependências Maven.
+RUN_CMD='cd "$1" && mvn -q package && java -jar target/RPG-CLI-0.4.jar'
 
 # Abre numa nova janela do terminal, se o emulador existir; senão, roda aqui mesmo.
 if command -v x-terminal-emulator >/dev/null 2>&1; then
-    x-terminal-emulator -e bash -c "$RUN_CMD; exec bash"
+    x-terminal-emulator -e bash -c "$RUN_CMD; exec bash" bash "$PROJECT_DIR"
 else
-    bash -c "$RUN_CMD"
+    bash -c "$RUN_CMD" bash "$PROJECT_DIR"
 fi

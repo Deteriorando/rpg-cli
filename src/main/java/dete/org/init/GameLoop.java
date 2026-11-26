@@ -1,5 +1,7 @@
 package dete.org.init;
 
+import dete.org.audio.MusicEngine;
+import dete.org.audio.SoundEffects;
 import dete.org.core.entity.configEntities.ConfigureEnemy;
 import dete.org.core.entity.configEntities.ConfigurePlayer;
 import dete.org.core.input.PlayerInput;
@@ -17,15 +19,7 @@ import dete.org.view.terminal.presenters.TerminalActionPresenter;
 import dete.org.view.terminal.presenters.TerminalInventoryPresenter;
 import dete.org.view.terminal.presenters.TerminalMenuPresenter;
 
-/**
- * <p>
- *     Está é a classe que vai rodar o jogo infinitamente.
- * </p>
- * */
-
 public class GameLoop {
-
-    private static boolean runnable = true;
 
     public static void run() {
         Player player = new Player(Classes.HUMAN, "Dete");
@@ -38,24 +32,35 @@ public class GameLoop {
         MenuPresenter menuPresenter = new TerminalMenuPresenter(input);
         InventoryPresenter inventoryPresenter = new TerminalInventoryPresenter();
 
-        while (runnable){
-            MenuIU.menu();
-            int chose = input.getCodeInt();
-
-            switch (chose) {
-                case 1 -> {
-                    Enemy enemy = ConfigureEnemy.createRandomEnemy();
-                    new Controller(
-                            input,
-                            presenter,
-                            menuPresenter,
-                            inventoryPresenter
-                    ).start(player, enemy);
+        try (SoundEffects soundEffects = SoundEffects.open()) {
+            while (!input.isEndOfInput()) {
+                MenuIU.menu();
+                int choice = input.getCodeInt();
+                if (input.isEndOfInput()) {
+                    return;
                 }
-                case 2 -> MenuIU.profile(player);
-                case 3 -> new ConfigurePlayer(input, menuPresenter).configure(player);
-                case 4 -> runnable = false;
+
+                // Opção 4 encerra o jogo e fecha o áudio em seguida; não dispara
+                // confirmação para não cortar o som no fechamento.
+                if (choice >= 1 && choice <= 3) {
+                    SoundEffects.play(SoundEffects.Cue.CONFIRM);
+                }
+
+                switch (choice) {
+                    case 1 -> startCombat(player, input, presenter, menuPresenter, inventoryPresenter);
+                    case 2 -> MenuIU.profile(player);
+                    case 3 -> new ConfigurePlayer(input, menuPresenter).configure(player);
+                    case 4 -> { return; }
+                }
             }
+        }
+    }
+    private static void startCombat(Player player, PlayerInput input, CombatPresenter presenter,
+                                    MenuPresenter menuPresenter, InventoryPresenter inventoryPresenter) {
+        Enemy enemy = ConfigureEnemy.createRandomEnemy();
+        try (var music = MusicEngine.loop("/audio/ordinary-battle-loop.wav")) {
+            SoundEffects.play(SoundEffects.Cue.BATTLE_START);
+            new Controller(input, presenter, menuPresenter, inventoryPresenter).start(player, enemy);
         }
     }
 }

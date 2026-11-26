@@ -40,7 +40,11 @@ public class InventoryController {
         inventoryPresenter.presenterAskItemNumber();
         int number = input.getCodeInt();
 
+        if (input.isEndOfInput()) {
+            return false;
+        }
         if (number == 0) {
+            inventoryPresenter.presenterItemSelectionCanceled();
             return false;
         }
         if (number < 1 || number > slots.size()) {

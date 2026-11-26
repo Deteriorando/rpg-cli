@@ -17,7 +17,7 @@ public interface CombatPresenter {
 
     /**
      * @param enemy    o inimigo que regenerou
-     * @param healed   quanto de vida foi efetivamente calculado na regeneração
+     * @param healed   quanto de vida foi recuperado após aplicar o limite de vida
      * @param critical se a regeneração teve o multiplicador aplicado
      */
     void presenterEnemyRegeneration(Enemy enemy, double healed, boolean critical);
